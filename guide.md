@@ -17,7 +17,7 @@ kravet for å delta. Har du ikke det, si fra til kursholder nå.
 4. Skriv denne meldingen til Claude:
 
 ```
-Kjør preflight-sjekken i dette prosjektet.
+Kjør sjekken før workshopen.
 ```
 
 Claude gjør resten. Den lager en Word-fil av `example.md`, sjekker VS Code,
@@ -50,7 +50,7 @@ Send rapporten til kursholder. Kursholder tar det med IT før workshopen.
 Sjekken er ett PowerShell-skript. Det ligger her, og du kan lese det før du
 godkjenner det:
 
-`.claude/skills/preflight/preflight-check.ps1`
+`.claude/skills/pre-workshop-check/preflight-check.ps1`
 
 Skriptet leser maskinen. Det installerer ingenting, og det endrer ingen
 innstilling. Én ting ser rart ut ved første blikk: skriptet godtar alle

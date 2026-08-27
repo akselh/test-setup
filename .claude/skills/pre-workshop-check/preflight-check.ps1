@@ -65,8 +65,8 @@ if ($codeExe) {
 # The setting is true by default, but an experiment can turn it off for one
 # user. The file .vscode/settings.json in the root sets it for everybody.
 # So this is a note, never a blocker.
-# The script lives in .claude/skills/preflight/. The root of the repo is
-# three folders up. .vscode/settings.json sits in that root.
+# The script lives in .claude/skills/pre-workshop-check/. The root of the
+# repo is three folders up. .vscode/settings.json sits in that root.
 $root = (Resolve-Path (Join-Path $PSScriptRoot '..\..\..')).Path
 $ws = Join-Path $root '.vscode\settings.json'
 if (Test-Path $ws) {

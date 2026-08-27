@@ -1,14 +1,15 @@
 ---
-name: preflight
+name: pre-workshop-check
 description: >
   Check that this machine can run the Agentic Edge workshop, and write one
   report the attendee sends to the workshop host. Use when the user says
-  "kjør preflight-sjekken", "sjekk maskinen", "preflight", "er maskinen
-  klar", "check my machine", or opens this project and asks what to do.
+  "kjør sjekken før workshopen", "sjekk maskinen", "er maskinen klar",
+  "pre-workshop-check", "check my machine", or opens this project and asks
+  what to do.
   The test that decides the verdict is a real Word export of `example.md`.
 ---
 
-# Preflight
+# Pre-workshop check
 
 ## What this does
 This skill answers one question: can this machine run the workshop?
@@ -21,7 +22,7 @@ The result is one report. The attendee copies the report and sends it to
 the workshop host.
 
 ## When to use it
-Use it when the user asks for the preflight check, or asks if the machine
+Use it when the user asks for the check, or asks if the machine
 is ready. `guide.md` tells the user to ask for it.
 
 ## The two tests
@@ -65,7 +66,7 @@ Both tests must pass for a green verdict.
    It reads VS Code, and it explains a failed export.
 
    ```
-   powershell -ExecutionPolicy Bypass -File .\.claude\skills\preflight\preflight-check.ps1
+   powershell -ExecutionPolicy Bypass -File .\.claude\skills\pre-workshop-check\preflight-check.ps1
    ```
 
    On a Mac, run `bash` equivalents of the same four checks, and say in the
