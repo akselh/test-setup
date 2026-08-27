@@ -22,8 +22,13 @@ The result is one report. The attendee copies the report and sends it to
 the workshop host.
 
 ## When to use it
-Use it when the user asks for the check, or asks if the machine
-is ready. `guide.md` tells the user to ask for it.
+Use it when the user asks for the check, or asks if the machine is ready.
+`guide.md` tells the user to ask for it.
+
+The file `KJOR-DENNE.md` in the root holds the same steps, in Norwegian.
+It is there for the session that cloned this repo while it ran, because
+that session never loaded this skill. Keep the two files the same. A change
+here needs the same change there.
 
 ## The two tests
 

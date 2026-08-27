@@ -10,18 +10,20 @@ kravet for å delta. Har du ikke det, si fra til kursholder nå.
 
 ## Slik gjør du det
 
-1. Åpne Claude Desktop.
-2. Åpne Claude Code i appen.
-3. Åpne mappen du klonet dette repoet til som prosjekt. Bruk `C:\dev`, ikke
-   `Dokumenter`. Mappen `Dokumenter` ligger ofte i OneDrive, og det gir feil.
-4. Skriv denne meldingen til Claude:
+1. Åpne Claude Desktop, og åpne Claude Code i appen.
+2. Lim inn denne meldingen, og send den:
 
 ```
-Kjør sjekken før workshopen.
+Klon https://github.com/akselh/test-setup til C:\dev\test-setup.
+Bytt arbeidsmappe til C:\dev\test-setup.
+Les KJOR-DENNE.md i den mappen, og gjør det filen sier.
 ```
 
 Claude gjør resten. Den lager en Word-fil av `example.md`, sjekker VS Code,
 og skriver en rapport.
+
+Bruk `C:\dev`, ikke `Dokumenter`. Mappen `Dokumenter` ligger ofte i
+OneDrive, og det gir feil.
 
 ## Hva du sender til kursholder
 
@@ -60,9 +62,9 @@ inspiserer trafikken. Det sender ingen data.
 
 ## Hva sjekken gjør på maskinen din
 
-Sjekken leser maskinen. Den skriver to ting, begge i denne mappen:
+Sjekken leser maskinen. Den skriver to ting, begge i den klonede mappen:
 
 - `example.docx`, Word-filen fra testen.
 - `node_modules`, en mappe med kode som Word-testen trenger.
 
-Begge kan du slette etterpå. Ingen av dem ligger utenfor denne mappen.
+Begge kan du slette etterpå. Ingen av dem ligger utenfor mappen.
