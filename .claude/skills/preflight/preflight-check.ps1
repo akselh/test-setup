@@ -87,10 +87,13 @@ foreach ($t in @(
 # --- The npm registry. The Word test downloads a package from it ---
 # A proxy that inspects the traffic breaks npm. This is the most common
 # cause on a machine that a company controls.
+# The list below holds the usual products. Both branches print the issuer,
+# so a product that the list does not know is still visible in the report.
+# Never add a customer name to this list. This repo is public.
 $t = Test-Tls 'registry.npmjs.org'
 if (-not $t.Ok) {
     Add-Line 'npm-registeret' 'MANGLER' "Ingen kontakt. $($t.Issuer)"
-} elseif ($t.Issuer -match 'Zscaler|Netskope|Palo Alto|Forcepoint|Blue Coat|Fortinet|McAfee|Sophos|Carasent') {
+} elseif ($t.Issuer -match 'Zscaler|Netskope|Palo Alto|Forcepoint|Blue Coat|Fortinet|McAfee|Sophos') {
     Add-Line 'npm-registeret' 'MANGLER' "Trafikken inspiseres av en proxy. Utsteder: $($t.Issuer). npm vil feile med SELF_SIGNED_CERT_IN_CHAIN. IT ma legge inn sertifikatet."
 } else {
     Add-Line 'npm-registeret' 'OK' "Kontakt OK. Utsteder: $($t.Issuer)"
