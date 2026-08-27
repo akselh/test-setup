@@ -63,11 +63,14 @@ if ($codeExe) {
 
 # --- The hybrid markdown editor ---
 # The setting is true by default, but an experiment can turn it off for one
-# user. The file .vscode/settings.json in this folder sets it for everybody.
+# user. The file .vscode/settings.json in the root sets it for everybody.
 # So this is a note, never a blocker.
-$ws = Join-Path $PSScriptRoot '.vscode\settings.json'
+# The script lives in .claude/skills/preflight/. The root of the repo is
+# three folders up. .vscode/settings.json sits in that root.
+$root = (Resolve-Path (Join-Path $PSScriptRoot '..\..\..')).Path
+$ws = Join-Path $root '.vscode\settings.json'
 if (Test-Path $ws) {
-    Add-Line 'Hybrid markdown' 'OK' 'Satt i .vscode/settings.json i denne mappen.'
+    Add-Line 'Hybrid markdown' 'OK' 'Satt i .vscode/settings.json i repoet.'
 } else {
     Add-Line 'Hybrid markdown' 'MERK' 'Fant ikke .vscode/settings.json. Klonet du hele repoet?'
 }

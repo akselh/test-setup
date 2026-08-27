@@ -45,6 +45,19 @@ To ting kan du ikke fikse selv:
 
 Send rapporten til kursholder. Kursholder tar det med IT før workshopen.
 
+## Til IT-avdelingen
+
+Sjekken er ett PowerShell-skript. Det ligger her, og du kan lese det før du
+godkjenner det:
+
+`.claude/skills/preflight/preflight-check.ps1`
+
+Skriptet leser maskinen. Det installerer ingenting, og det endrer ingen
+innstilling. Én ting ser rart ut ved første blikk: skriptet godtar alle
+sertifikater når det åpner en TLS-forbindelse til `registry.npmjs.org`. Det
+må det, fordi det leser utstederen av sertifikatet for å se om en proxy
+inspiserer trafikken. Det sender ingen data.
+
 ## Hva sjekken gjør på maskinen din
 
 Sjekken leser maskinen. Den skriver to ting, begge i denne mappen:

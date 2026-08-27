@@ -65,7 +65,7 @@ Both tests must pass for a green verdict.
    It reads VS Code, and it explains a failed export.
 
    ```
-   powershell -ExecutionPolicy Bypass -File .\preflight-check.ps1
+   powershell -ExecutionPolicy Bypass -File .\.claude\skills\preflight\preflight-check.ps1
    ```
 
    On a Mac, run `bash` equivalents of the same four checks, and say in the
