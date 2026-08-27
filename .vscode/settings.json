@@ -1,0 +1,6 @@
+{
+  // Hybrid markdown-editor. VS Code 1.131 og nyere.
+  // Innstillingen er pa som standard, men den styres av et eksperiment.
+  // Derfor setter vi den her, sa alle pa workshopen far den samme.
+  "workbench.editor.markdownDefaultEditorInAgentsWindow": true
+}
