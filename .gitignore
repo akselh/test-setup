@@ -2,5 +2,6 @@ node_modules/
 temp/
 package-lock.json
 package.json
-example.docx
-rapport-*.txt
+word-example.docx
+powerpoint-example.pptx
+pre-workshop-check-*.md

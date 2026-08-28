@@ -5,8 +5,8 @@ description: >
   report the attendee sends to the workshop host. Use when the user says
   "kjør sjekken før workshopen", "sjekk maskinen", "er maskinen klar",
   "pre-workshop-check", "check my machine", or opens this project and asks
-  what to do.
-  The test that decides the verdict is a real Word export of `example.md`.
+  what to do. The check reads Node.js, VS Code and Git, and then makes a real
+  Word file and a real PowerPoint file.
 ---
 
 # Pre-workshop check
@@ -14,113 +14,142 @@ description: >
 ## What this does
 This skill answers one question: can this machine run the workshop?
 
-It answers with a real test, not with a list of installed programs. It
-makes a Word file from `example.md`. If the Word file appears, the machine
-can do the work. If it does not, the skill finds out why.
+It answers with real tests, not with a list of installed programs. First it
+reads the three programs that the workshop needs. Then it makes a Word file
+from `word-example.md` and a PowerPoint file from `powerpoint-example.md`. The
+machine can do the work when both files appear.
 
-The result is one report. The attendee copies the report and sends it to
-the workshop host.
+The result is one short report in Norwegian. The skill shows the report in the
+chat and writes it to a file. The attendee sends that file to the workshop
+host.
 
-## When to use it
-Use it when the user asks for the check, or asks if the machine is ready.
-`guide.md` tells the user to ask for it.
+## Rules for the whole run
+- Change nothing on the machine. Install no program. Never edit the user
+  settings of VS Code.
+- Run every step, also after a failure. The report needs the full picture.
+- Keep the exact error text of a step that failed. Never guess a cause.
+- Write the report in Norwegian, and write it last.
 
-The file `KJOR-DENNE.md` in the root holds the same steps, in Norwegian.
-It is there for the session that cloned this repo while it ran, because
-that session never loaded this skill. Keep the two files the same. A change
-here needs the same change there.
+## Step 1 — say what you do
+Say in one Norwegian sentence that you start the check. Then run. Ask no
+question here. The user asked for the check already.
 
-## The two tests
-
-**Test 1: the Word export.** This decides the verdict. It uses the `docx`
-skill from Anthropic, which Claude Desktop supplies. Do not copy that
-skill. Call it where it is.
-
-**Test 2: VS Code.** The workshop uses the hybrid markdown editor. It needs
-version 1.131 or newer. The editor is on by default. The file
-`.vscode/settings.json` in this folder sets it for everybody, so no user
-has to change a setting.
-
-Both tests must pass for a green verdict.
-
-## Steps
-
-1. **Say what you are about to do**, in Norwegian, in one sentence. Then
-   run. Ask no question. The user asked once, in `guide.md`.
-
-2. **Run the Word export.** Find the `docx` skill in the skill list of the
-   session. It shows as `docx`, or as `anthropic-skills:docx`. Start it
-   with the `Skill` tool. Give it `example.md`, and the output path
-   `example.docx`, in this folder. State that the document is Norwegian,
-   and that every heading, table and list must survive.
-
-   Note what happens. The skill runs `npm install docx` first, because the
-   package is absent on a normal machine. That step needs the npm
-   registry. It is the step that fails most often.
-
-3. **Check the result.** The test passes when `example.docx` exists and is
-   larger than zero bytes:
-
-   ```
-   ls -l example.docx
-   ```
-
-   Keep the exact error text if the test failed. The report needs it.
-
-4. **Run the diagnose script.** Run it always, not only after a failure.
-   It reads VS Code, and it explains a failed export.
-
-   ```
-   powershell -ExecutionPolicy Bypass -File .\.claude\skills\pre-workshop-check\preflight-check.ps1
-   ```
-
-   On a Mac, run `bash` equivalents of the same four checks, and say in the
-   report that the machine is a Mac.
-
-5. **Write the report.** Follow "The report" below, word for word.
-
-6. **Change nothing on the machine.** Install no program. Never edit the
-   user settings of VS Code. The file `.vscode/settings.json` in this
-   folder does that work, and it stays inside this folder. This skill
-   reports. It does not repair. Name the fix in the report, and let the
-   user choose.
-
-## The report
-
-Write the report last, in Norwegian, inside one code block, so the user can
-copy it in one action. Use this form exactly:
+## Step 2 — read the three programs
+Run these commands. Each one can fail. A failure is a result, not a stop.
 
 ```
-=== RAPPORT TIL KURSHOLDER ===
-Navn:        <spør brukeren, eller skriv "ikke oppgitt">
-Maskin:      <datamaskinnavn og operativsystem>
+node --version
+npm --version
+git --version
+code --version
+```
+
+`npm` comes with Node.js. Name it in the report only when `node` works and
+`npm` is absent.
+
+The `code` command is on PATH only when the installer added it. When
+`code --version` fails, look for the program file:
+
+- Windows: `$LOCALAPPDATA/Programs/Microsoft VS Code/bin/code.cmd`, then
+  `/c/Program Files/Microsoft VS Code/bin/code.cmd`
+- Mac: `/Applications/Visual Studio Code.app/Contents/Resources/app/bin/code`
+
+The first line of the output is the version number. The workshop needs version
+1.132 or newer, because of the hybrid markdown editor. The file
+`.vscode/settings.json` in this folder turns that editor on for everybody, so
+no user has to change a setting.
+
+## Step 3 — make the Word file
+Use the `docx` skill from Anthropic. Claude Desktop supplies it. It shows in
+the skill list as `docx`, or as `anthropic-skills:docx`. Start it with the
+`Skill` tool. Do not copy that skill, and do not write the Word file with your
+own code.
+
+Give the skill this task:
+
+- source: `word-example.md` in this folder
+- output: `word-example.docx` in this folder
+- the document is Norwegian
+- every heading, table and list must survive
+
+The skill runs `npm install docx` first, because the package is absent on a
+normal machine. That step needs the npm registry. It is the step that fails
+most often on a machine that a company controls.
+
+Check the result. The test passes when the file exists and is larger than zero
+bytes:
+
+```
+ls -l word-example.docx
+```
+
+## Step 4 — make the PowerPoint file
+Use the `pptx` skill from Anthropic in the same way. It shows as `pptx`, or as
+`anthropic-skills:pptx`.
+
+Give the skill this task:
+
+- source: `powerpoint-example.md` in this folder
+- output: `powerpoint-example.pptx` in this folder
+- one slide for each `##` heading, Norwegian text
+- keep the bullet lists and the table
+
+Check the result:
+
+```
+ls -l powerpoint-example.pptx
+```
+
+## Step 5 — write the report
+Ask the user for the name in one Norwegian sentence, when you do not know it.
+Then write the report.
+
+Show the report in the chat inside one code block, so the user can copy it in
+one action. Use this form exactly:
+
+```
+=== RAPPORT TIL WORKSHOP-KOORDINATOR ===
+Navn:        <navn, eller "ikke oppgitt">
+Maskin:      <maskinnavn og operativsystem>
 Dato:        <dato>
 
 RESULTAT:    MASKINEN ER KLAR FOR WORKSHOP
              (eller: MASKINEN MANGLER: <kort liste>)
 
-Word-test:   OK  (example.docx, <n> byte)
+Node.js:     <versjon>   (eller: MANGLER)
+Git:         <versjon>   (eller: MANGLER)
+VS Code:     <versjon>   (eller: MANGLER / FOR GAMMEL, krever 1.131)
+Word-test:   OK - word-example.docx, <n> byte
              (eller: FEILET - <den eksakte feilmeldingen>)
-
-VS Code:     <versjon>, hybrid markdown: <satt / mangler>
-
-Detaljer fra sjekken:
-<hele blokken fra preflight-check.ps1>
+PowerPoint:  OK - powerpoint-example.pptx, <n> byte
+             (eller: FEILET - <den eksakte feilmeldingen>)
 
 Dette må fikses:
 <én linje per mangel, med lenke. Skriv "Ingenting." når alt er OK.>
 === SLUTT ===
 ```
 
+Then write the same text to the file `pre-workshop-check-<navn>.md` in the root
+of this project. Use the name of the user in the file name, in lower case and
+without spaces. Write "ukjent" when the user gave no name.
+
 Rules for the report:
-- The verdict line is green only when the Word test passed **and** VS Code
-  is 1.131 or newer. Nothing else can make it red.
-- Name the fix the user can do, and the fix that needs IT. These two need
-  IT: a VS Code that the company controls, and a proxy that blocks npm.
+
+- The verdict line is green only when all five lines above it are OK.
+- Give the link for each program that is absent:
+  - Node.js: https://nodejs.org/en/download
+  - Git: https://git-scm.com/downloads
+  - VS Code: https://code.visualstudio.com/download
+- Two faults need IT, and the report must say so:
+  - a VS Code that the company controls and holds on an old version
+  - a proxy that blocks the npm registry. You see it when `npm install` fails
+    with `SELF_SIGNED_CERT_IN_CHAIN` or `unable to get local issuer
+    certificate`. IT must add the certificate of the proxy to npm.
 - Never guess a cause. Write the error text that you saw.
 
 ## After the report
-Tell the user, in Norwegian, to copy the block and send it to the workshop
-host. Say it once. Say it in one sentence.
+Tell the user in one Norwegian sentence to send the file
+`pre-workshop-check-<navn>.md` to the workshop host.
 
-Then say that `example.docx` and `node_modules` are safe to delete.
+Then say that `word-example.docx`, `powerpoint-example.pptx` and `node_modules`
+are safe to delete.
