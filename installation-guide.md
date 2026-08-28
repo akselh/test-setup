@@ -36,3 +36,30 @@ workshop koordinator for å få en bruker på Claude instruks for installasjon a
 
 Du må både ha Claude installert og vere innlogget med din bedriftsbruker (personlig bruker/abonnement kan ikke 
 brukes) på Claude for å fullføre [sjekken etter installasjon](check-installation.md).
+
+## Rask installasjon for erfarne brukere
+
+Denne delen er valgfri. Den installerer alle tre verktøyene uten et eneste spørsmål.
+Er du usikker, bruker du listen over i stedet.
+
+Last ned de tre filene først. Åpne så PowerShell i mappen der de ligger.
+
+VS Code. Denne krever ikke administrator:
+
+```
+.\VSCodeUserSetup-x64.exe /VERYSILENT /NORESTART /mergetasks=!runcode
+```
+
+Git. Kommandoen setter alle de åtte valgene i [git-install.md](git-install.md):
+
+```
+.\Git-2.55.0.5-64-bit.exe /VERYSILENT /NORESTART /o:EditorOption=VisualStudioCode /o:PathOption=Cmd /o:CURLOption=WinSSL /o:CRLFOption=CRLFAlways /o:BashTerminalOption=ConHost /o:GitPullOption=Rebase /o:CredentialManagerOption=Enabled /o:EnableSymlinks=Disabled
+```
+
+Node.js. Denne krever administrator:
+
+```
+msiexec /i node-v24.20.0-x64.msi /qn /norestart
+```
+
+Start maskinen på nytt når alle tre er ferdige.

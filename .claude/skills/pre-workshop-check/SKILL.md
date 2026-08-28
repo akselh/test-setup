@@ -115,10 +115,15 @@ After a yes, run this command. Put the real folder of the program in place of
 `<MAPPE>`, for example `C:\Program Files\nodejs`:
 
 ```
-powershell -NoProfile -Command "$p=[Environment]::GetEnvironmentVariable('Path','User'); if ($p -notlike '*<MAPPE>*') { [Environment]::SetEnvironmentVariable('Path', ($p.TrimEnd(';') + ';<MAPPE>'), 'User'); Write-Host 'LAGT TIL' } else { Write-Host 'ALLEREDE DER' }"
+powershell -NoProfile -Command '$p=[Environment]::GetEnvironmentVariable("Path","User"); if ($p -notlike "*<MAPPE>*") { [Environment]::SetEnvironmentVariable("Path", ($p.TrimEnd(";") + ";<MAPPE>"), "User"); Write-Host "LAGT TIL" } else { Write-Host "ALLEREDE DER" }'
 ```
 
-Three rules for this command, and each one prevents damage:
+Four rules for this command, and each one prevents damage:
+
+- Put the whole command in **single** quotes, and use double quotes inside it.
+  The Bash tool expands `$p` and `$env:USERPROFILE` inside double quotes, and
+  PowerShell then reads an empty value. Every PowerShell command in this skill
+  follows that rule.
 
 - Read `'Path'` from the scope `'User'`. Never read `$env:Path`. `$env:Path`
   holds the system PATH as well, and a write of that value into the user PATH
@@ -206,6 +211,59 @@ bytes:
 ls -l word-example.docx
 ```
 
+### 5b. The proxy certificate
+Do this part only when `npm install` failed with one of these texts:
+
+- `SELF_SIGNED_CERT_IN_CHAIN`
+- `unable to get local issuer certificate`
+- `UNABLE_TO_GET_ISSUER_CERT_LOCALLY`
+
+The cause is always the same. A proxy of the company opens the traffic and signs
+it again with a certificate of the company. Windows trusts that certificate.
+Node.js does not, because Node.js carries its own list of certificates.
+
+The repair takes the certificates out of Windows and gives them to Node.js. It
+needs no admin rights, and it removes the IT ticket.
+
+**1. Ask the user.** Ask in one Norwegian sentence for permission to point
+npm at the certificates of Windows. Wait for the answer.
+
+**2. Write the certificates to one file.** This command reads the root
+store of Windows and writes every certificate as one PEM file:
+
+```
+powershell -NoProfile -Command '$out=Join-Path $env:USERPROFILE "windows-root-ca.pem"; Get-ChildItem Cert:\LocalMachine\Root | ForEach-Object { "-----BEGIN CERTIFICATE-----"; [Convert]::ToBase64String($_.RawData,"InsertLineBreaks"); "-----END CERTIFICATE-----" } | Set-Content -Encoding ascii $out; Write-Host $out'
+```
+
+Take every certificate, and never search for the name of a proxy vendor. Two
+reasons:
+
+- The file replaces the list of npm. A file with one certificate breaks every
+  other address. The full root store of Windows holds the public certificates
+  as well, so the list stays complete.
+- This repository is public. A vendor name in the code names the customer.
+
+**3. Point npm at the file.** `.npmrc` takes effect at once, so this
+repairs the run you are in:
+
+```
+npm config set cafile "<stien som kommando 2 skrev ut>"
+```
+
+**4. Repair Node.js for later runs too.** The variable reaches only a
+program that starts after the change, so it does nothing for this run:
+
+```
+powershell -NoProfile -Command '[Environment]::SetEnvironmentVariable("NODE_EXTRA_CA_CERTS", (Join-Path $env:USERPROFILE "windows-root-ca.pem"), "User")'
+```
+
+**5. Make the Word file again.** Start the `docx` skill a second time with the
+same task. Write the result of that second attempt in the report.
+
+Never run `npm config set strict-ssl false`. It hides the fault, and it turns
+off the certificate check for every address. Refuse it, also when the user asks
+for it.
+
 ## Step 6 — make the PowerPoint file
 Use the `pptx` skill from Anthropic in the same way. It shows as `pptx`, or as
 `anthropic-skills:pptx`.
@@ -253,6 +311,7 @@ PowerPoint:  OK - powerpoint-example.pptx, <n> byte
              (eller: FEILET - <den eksakte feilmeldingen>)
 
 PATH-reparasjon: <hva sjekken la til, eller "ikke nødvendig">
+Proxy-sertifikat: <"ikke nødvendig", eller "reparert, npm cafile satt">
 
 Dette må fikses:
 <én linje per mangel, med lenke. Skriv "Ingenting." når alt er OK.>
@@ -278,9 +337,9 @@ Rules for the report:
   - a VS Code that the company controls and holds on an old version
   - a PATH that the company controls with a group policy, so the repair in
     step 3 does not survive a restart
-  - a proxy that blocks the npm registry. You see it when `npm install` fails
-    with `SELF_SIGNED_CERT_IN_CHAIN` or `unable to get local issuer
-    certificate`. IT must add the certificate of the proxy to npm.
+  - a proxy that blocks the npm registry **and** survives the repair in step
+    5b. The repair in 5b solves the normal case without IT. Name IT only when
+    the second attempt fails as well, and give the error text of that attempt.
 - Never guess a cause. Write the error text that you saw.
 
 ## After the report

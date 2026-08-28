@@ -62,7 +62,10 @@ Sjekken skriver fire ting, alle i den nye mappen på disken din. Mappen heter
 
 Alle fire kan du slette etterpå. Ingen av dem ligger utenfor mappen.
 
-Sjekken installerer ingen programmer. Sjekken kan endre to ting, og den spør deg først:
+Sjekken installerer ingen programmer. Sjekken kan endre tre ting, og den spør deg først:
 
 - PATH-en din, hvis Node.js eller Git ligger på disken, men Claude ikke finner dem.
 - Navnet og e-postadressen din i Git, hvis du ikke har satt dem fra før.
+- Innstillingen for sertifikater i npm, hvis firmaets brannmur stopper nedlastingen.
+  Sjekken kopierer da sertifikatene fra Windows til filen `windows-root-ca.pem` i
+  hjemmemappen din.
