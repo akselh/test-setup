@@ -15,11 +15,11 @@ disse er installert:
 
 ## Krav til maskinen
 
-| Krav | Hvorfor | Hvor du får det |
-| --- | --- | --- |
-| Claude Code i Claude Desktop | Kjører hele workshopen | claude.ai/download |
-| VS Code 1.131 eller nyere | Hybrid markdown-editor | code.visualstudio.com |
-| Git | Henter og deler filer i teamet | git-scm.com |
+| Krav | Hvorfor                                  | Hvor du får det |
+| --- |------------------------------------------| --- |
+| Claude Code i Claude Desktop | Kjører hele workshopen                   | claude.ai/download |
+| VS Code  | Hybrid markdown-editor ++           | code.visualstudio.com |
+| Git | Henter og deler filer i teamet           | git-scm.com |
 | Node.js | Word- og PowerPoint-eksporten bruker den | nodejs.org |
 
 > Maskinen er klar når både Word-filen og PowerPoint-filen finnes.
