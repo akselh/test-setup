@@ -39,27 +39,16 @@ brukes) på Claude for å fullføre [sjekken etter installasjon](check-installat
 
 ## Rask installasjon for erfarne brukere
 
-Denne delen er valgfri. Den installerer alle tre verktøyene uten et eneste spørsmål.
-Er du usikker, bruker du listen over i stedet.
+Denne delen er valgfri. Er du usikker, bruker du listen over i stedet.
 
-Last ned de tre filene først. Åpne så PowerShell i mappen der de ligger.
-
-VS Code. Denne krever ikke administrator:
+VS Code installerer seg uten et eneste spørsmål. Last ned filen først, og åpne
+PowerShell i mappen der filen ligger. Denne kommandoen krever ikke administrator:
 
 ```
 .\VSCodeUserSetup-x64.exe /VERYSILENT /NORESTART /mergetasks=!runcode
 ```
 
-Git. Kommandoen setter alle de åtte valgene i [git-install.md](git-install.md):
+Git har den samme muligheten. Kommandoen står i [git-install.md](git-install.md),
+under «Rask installasjon uten spørsmål».
 
-```
-.\Git-2.55.0.5-64-bit.exe /VERYSILENT /NORESTART /o:EditorOption=VisualStudioCode /o:PathOption=Cmd /o:CURLOption=WinSSL /o:CRLFOption=CRLFAlways /o:BashTerminalOption=ConHost /o:GitPullOption=Rebase /o:CredentialManagerOption=Enabled /o:EnableSymlinks=Disabled
-```
-
-Node.js. Denne krever administrator:
-
-```
-msiexec /i node-v24.20.0-x64.msi /qn /norestart
-```
-
-Start maskinen på nytt når alle tre er ferdige.
+Start maskinen på nytt når du er ferdig.
