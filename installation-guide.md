@@ -15,7 +15,7 @@ Installer disse i angitt rekkefølge:
   - Git brukes bl.a. for å rulle tilbake endringer på filer som ikke fungerte, samt å dele AI-verktøy m.m. inad i teamet
 - Node.js: last ned og installer fra https://nodejs.org/en/download 
   - For Windows: Velg "Windows Installer" nede på siden eller bruk denne linken
-    - https://nodejs.org/dist/v24.20.0/node-v24.20.0-arm64.msi
+    - https://nodejs.org/dist/v24.20.0/node-v24.20.0-x64.msi
     - NB! Ikke bruk `winget install OpenJS.NodeJS.LTS`. Den installasjonen legger ofte ikke Node.js på PATH.
   - Node.js brukes for å kunne generere bl.a. Word-dokumenter med AI i Claude Code
 
