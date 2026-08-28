@@ -7,6 +7,48 @@ spørsmålene.
 Last ned Git herfra: https://git-scm.com/download/win. Denne siden bruker Git
 versjon 2.55.0.5. Start installasjonsprogrammet etter nedlastingen.
 
+## Rask installasjon uten spørsmål
+
+Denne delen er for deg som er trygg på PowerShell. Du får nøyaktig de åtte valgene
+lenger nede, i én kommando. Hopper du over denne delen, skjer ingenting galt.
+
+Last ned installasjonsfilen først. Åpne så PowerShell i mappen der filen ligger, og
+lim inn:
+
+```
+.\Git-2.55.0.5-64-bit.exe /VERYSILENT /NORESTART `
+  /o:EditorOption=VisualStudioCode `
+  /o:PathOption=Cmd `
+  /o:CURLOption=WinSSL `
+  /o:CRLFOption=CRLFAlways `
+  /o:BashTerminalOption=ConHost `
+  /o:GitPullOption=Rebase `
+  /o:CredentialManagerOption=Enabled `
+  /o:EnableSymlinks=Disabled
+```
+
+Hvert flagg svarer på ett skjermbilde lenger nede:
+
+| Flagg | Skjermbilde |
+| --- | --- |
+| `EditorOption=VisualStudioCode` | 1. Standard tekstredigerer |
+| `PathOption=Cmd` | 2. PATH-innstilling |
+| `CURLOption=WinSSL` | 3. HTTPS-bibliotek |
+| `CRLFOption=CRLFAlways` | 4. Linjeskift |
+| `BashTerminalOption=ConHost` | 5. Terminalemulator |
+| `GitPullOption=Rebase` | 6. Oppførsel for git pull |
+| `CredentialManagerOption=Enabled` | 7. Innloggingshjelper |
+| `EnableSymlinks=Disabled` | 8. Ekstra valg |
+
+Filnavnet endrer seg med versjonen. Bytt `Git-2.55.0.5-64-bit.exe` med navnet på
+filen du lastet ned.
+
+Kommandoen viser ingenting mens den kjører. Vent til ledeteksten kommer tilbake.
+Sperrer firmaet ditt skript i PowerShell, feiler kommandoen. Da bruker du de åtte
+skjermbildene lenger nede.
+
+## Installer med skjermbildene
+
 De første skjermbildene heter velkomst, lisens, installasjonsmappe, komponenter
 og startmeny-mappe. Behold standardvalget på alle disse, og klikk «Next».
 Deretter kommer de åtte valgene under.
@@ -113,46 +155,6 @@ starte installasjonen.
 
 Det siste skjermbildet kan spørre om eksperimentelle valg. Slå av alle disse
 valgene.
-
-## Rask installasjon uten spørsmål
-
-Denne delen er for deg som er trygg på PowerShell. Du får nøyaktig de åtte valgene
-over, i én kommando. Hopper du over denne delen, skjer ingenting galt.
-
-Last ned installasjonsfilen først. Åpne så PowerShell i mappen der filen ligger, og
-lim inn:
-
-```
-.\Git-2.55.0.5-64-bit.exe /VERYSILENT /NORESTART `
-  /o:EditorOption=VisualStudioCode `
-  /o:PathOption=Cmd `
-  /o:CURLOption=WinSSL `
-  /o:CRLFOption=CRLFAlways `
-  /o:BashTerminalOption=ConHost `
-  /o:GitPullOption=Rebase `
-  /o:CredentialManagerOption=Enabled `
-  /o:EnableSymlinks=Disabled
-```
-
-Hvert flagg svarer på ett skjermbilde over:
-
-| Flagg | Skjermbilde |
-| --- | --- |
-| `EditorOption=VisualStudioCode` | 1. Standard tekstredigerer |
-| `PathOption=Cmd` | 2. PATH-innstilling |
-| `CURLOption=WinSSL` | 3. HTTPS-bibliotek |
-| `CRLFOption=CRLFAlways` | 4. Linjeskift |
-| `BashTerminalOption=ConHost` | 5. Terminalemulator |
-| `GitPullOption=Rebase` | 6. Oppførsel for git pull |
-| `CredentialManagerOption=Enabled` | 7. Innloggingshjelper |
-| `EnableSymlinks=Disabled` | 8. Ekstra valg |
-
-Filnavnet endrer seg med versjonen. Bytt `Git-2.55.0.5-64-bit.exe` med navnet på
-filen du lastet ned.
-
-Kommandoen viser ingenting mens den kjører. Vent til ledeteksten kommer tilbake.
-Sperrer firmaet ditt skript i PowerShell, feiler kommandoen. Da bruker du de åtte
-skjermbildene over.
 
 ## Etter installasjonen
 
