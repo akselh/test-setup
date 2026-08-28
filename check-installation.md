@@ -6,14 +6,18 @@ workshop, se lenger ned.
 
 ## Før du starter
 
-Følg først `installation-guide.md` og installer VS Code, Git og Node.js.
+Følg først [installation-guide.md](installation-guide.md) og installer VS Code, Git og Node.js.
+På Windows viser [git-install.md](git-install.md) deg hvert valg i Git-installasjonen.
 
 Du må også ha Claude (Desktop applikasjon, _ikke_ websiden claude.ai) med tilgang til Claude Code,
 og du må være logget inn i Claude.
 
 ## Slik gjør du det
 
-1. Åpne Claude, og åpne Claude Code i appen.
+1. Åpne Claude. Klikk **Code** øverst til venstre, ved siden av «Chat and Cowork».
+
+   ![Velg Code i Claude Desktop](screenshots/claude-code-in-desktop.jpg)
+
 2. Lim inn og send denne meldingen i en ny chat:
 
 ```
