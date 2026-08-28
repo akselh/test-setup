@@ -145,6 +145,20 @@ Report the fault. Do not repair it. A GUI program on a Mac takes its PATH from
 `launchd`, not from the shell profile, so an edit of `.zshrc` does not help
 Claude Desktop.
 
+A PATH fault is rare on a Mac, because the two installers use folders that are
+on the PATH already. The `.pkg` of Node.js writes to `/usr/local/bin`, and Git
+sits in `/usr/bin`.
+
+Git on a Mac has one fault of its own. `/usr/bin/git` is present on every Mac,
+but it is only a stub. The real program arrives with the Command Line Tools of
+Xcode. The stub opens a dialog the first time somebody runs it, and
+`git --version` then fails or hangs. When you see that:
+
+- Tell the user to click `Install` in the dialog, and to wait for the end of
+  the download.
+- Tell the user to run the check again after that.
+- Write `MANGLER - Command Line Tools ikke installert` in the report.
+
 ## Step 4 — the Git identity
 Git refuses to save a change before it knows a name and an e-mail address.
 Read the two values:
@@ -256,8 +270,9 @@ Rules for the report:
 - `PÅ DISK, MEN IKKE PÅ PATH` is red, not green.
 - Give the link for each program that is absent:
   - Node.js: https://nodejs.org/en/download
-  - Git: https://git-scm.com/download/win, and the guide `git-install.md` in
-    this folder
+  - Git on Windows: https://git-scm.com/install/windows, and the guide
+    `git-install.md` in this folder
+  - Git on a Mac: the command `git --version` in Terminal starts the install
   - VS Code: https://code.visualstudio.com/download
 - Three faults need IT, and the report must say so:
   - a VS Code that the company controls and holds on an old version
