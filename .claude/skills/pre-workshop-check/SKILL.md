@@ -44,9 +44,9 @@ that file. Put the real values in place of them.
 
 ## Rules for the whole run
 - Install no program. Never edit the user settings of VS Code.
-- You can change one thing on the machine, and only after the user says yes:
-  the PATH (step 3) and the Git identity (step 4). Every other change is
-  forbidden.
+- You can change three things on the machine, each one only after the user says
+  yes: the PATH (step 3), the Git identity (step 4) and the Git credential
+  helper (step 4b). Every other change is forbidden.
 - Never run `gh auth login`, and never run `gh auth logout`. The login is
   interactive and belongs to the user. You read the state, and you report it.
 - Run every step, also after a failure. The report needs the full picture.
@@ -229,7 +229,7 @@ The command fails with `You are not logged into any GitHub hosts` when the
 login is missing. That is a red verdict. Tell the user in Norwegian to run
 `gh auth login` in PowerShell or in Terminal, and to answer **Yes** to
 «Authenticate Git with your GitHub credentials?». Point at
-`installation-guide.md`, part 3. Then go on to the next step.
+`installation-guide.md`. Then go on to the next step.
 
 ### 4b.2 Test Git against GitHub
 The login of `gh` can be good while Git still asks for a password, because the
@@ -452,7 +452,6 @@ Rules for the report:
   - GitHub CLI: https://cli.github.com/, and the guide `installation-guide.md`
     in this folder
   - The GitHub login: the command `gh auth login`, and `installation-guide.md`
-    part 3
 - Two faults need the workshop coordinator, not IT, and the report must say so:
   - a login that works, but no access to the organisation. The coordinator
     sends the invitation.

@@ -6,16 +6,15 @@ workshop, se lenger ned.
 
 ## Før du starter
 
-Følg først [installation-guide.md](installation-guide.md). Guiden dekker både Windows og Mac.
-Den har tre deler, og alle tre må være ferdige før du starter sjekken:
+Du trenger fire ting før du starter:
 
-1. Du har en GitHub-konto med 2FA (2-faktor autentisering), og du har godtatt GitHub-invitasjonen fra din bedrift.
-2. Du har installert VS Code, Git, Node.js og GitHub CLI. På Windows viser
-   [git-install.md](git-install.md) deg hvert valg i Git-installasjonen.
-3. Du har kjørt `gh auth login` i en terminal.
-
-Du må også ha Claude (Desktop applikasjon, _ikke_ websiden claude.ai) med tilgang til Claude Code,
-og du må være logget inn i Claude.
+1. Du har gjort [github-account.md](github-account.md): du har en GitHub-konto
+   med 2FA (2-faktor autentisering), og du har godtatt GitHub-invitasjonen fra din bedrift.
+2. Du har Claude (Desktop applikasjon, _ikke_ websiden claude.ai) med tilgang til Claude Code,
+   og du er logget inn i Claude.
+3. Du har installert VS Code, Git, Node.js og GitHub CLI, se
+   [installation-guide.md](installation-guide.md).
+4. Du har kjørt `gh auth login`, se [installation-guide.md](installation-guide.md).
 
 ## Slik gjør du det
 
@@ -28,18 +27,17 @@ og du må være logget inn i Claude.
    På **Windows**:
 
 ```
-Klon https://github.com/akselh/test-setup til C:\dev\workshop-setup-test.
-Bytt arbeidsmappe til C:\dev\workshop-setup-test.
+Klon https://github.com/akselh/test-setup til C:\dev\workshop-setup-test, bytt så arbeidsmappe dit.
 Kjør pre-workshop-check skillen.
 ```
 
    På **Mac**:
 
 ```
-Klon https://github.com/akselh/test-setup til ~/dev/workshop-setup-test.
-Bytt arbeidsmappe til ~/dev/workshop-setup-test.
+Klon https://github.com/akselh/test-setup til ~/dev/workshop-setup-test, bytt så arbeidsmappe dit.
 Kjør pre-workshop-check skillen.
 ```
+
 3. Claude spør deg om navnet ditt. Svar på spørsmålet.
 4. Send filen som blir laget til din workshop koordinator. Se instruksjoner under.
 
@@ -53,9 +51,12 @@ bedrift.
 
 ## Hva sjekken gjør på maskinen din
 
-Sjekken leser først om Node.js, Git, VS Code og GitHub CLI er installert. Deretter kontrollerer
-den at du er logget inn på GitHub, og at du får lest et repository i bedriftens organisasjon.
-Til slutt lager den en Word-fil og en PowerPoint-fil, for å vise at eksporten virker.
+Sjekken leser først om Node.js, Git, VS Code og GitHub CLI er installert. Mangler et av dem,
+skriver sjekken det i rapporten, med lenke.
+
+Deretter kontrollerer sjekken at du er logget inn på GitHub, og at du får lest et repository i
+bedriftens organisasjon. Til slutt lager den en Word-fil og en PowerPoint-fil, for å vise at
+eksporten virker.
 
 Sjekken skriver fire ting, alle i den nye mappen på disken din. Mappen heter
 `C:\dev\workshop-setup-test` på Windows og `~/dev/workshop-setup-test` på Mac:
@@ -67,10 +68,10 @@ Sjekken skriver fire ting, alle i den nye mappen på disken din. Mappen heter
 
 Alle fire kan du slette etterpå. Ingen av dem ligger utenfor mappen.
 
-Sjekken installerer ingen programmer, og den logger deg ikke inn på GitHub. Innloggingen gjør du
-selv med `gh auth login`, se [installation-guide.md](installation-guide.md).
+Sjekken installerer ingen programmer, og den logger deg ikke inn på GitHub. Innloggingen gjør
+du selv med `gh auth login`, se [installation-guide.md](installation-guide.md).
 
-Sjekken kan endre tre ting, og den spør deg først:
+Sjekken kan endre disse tingene, og den spør deg først hver gang:
 
 - PATH-en din, hvis Node.js eller Git ligger på disken, men Claude ikke finner dem.
 - Navnet og e-postadressen din i Git, hvis du ikke har satt dem fra før.
