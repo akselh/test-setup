@@ -24,18 +24,16 @@ Du trenger en GitHub-konto, og GitHub-admin i bedriften må legge deg til i orga
 5. Administrator inviterer deg til bedriftens GitHub-konto (organisasjonen). Du får en e-post fra GitHub.
    Åpne e-posten og klikk **Join** for å godta invitasjonen.
 
-Punkt 3 tar lengst tid og overrasker mange. Sett av ti minutter til det.
-
 ## Del 2: Installer disse verktøyene 
 
 Installer disse i rekkefølgen tabellen viser. Kolonnen «Alle» gjelder alle maskiner.
 Les så kolonnen for din maskin.
 
-| Program | Alle | Windows | macOS |
-| --- | --- | --- | --- |
-| **Visual Studio Code** | Her ser du på og endrer filene du får i workshopen. Last ned fra [code.visualstudio.com](https://code.visualstudio.com/) | Kjør installasjonsfilen. Behold standardvalgene | Pakk ut filen du laster ned, og dra `Visual Studio Code` inn i mappen `Programmer` |
-| **Git** | Git ruller tilbake endringer som ikke virket, og deler AI-verktøy i teamet | Last ned fra [git-scm.com](https://git-scm.com/download/win). Installasjonsprogrammet stiller mange spørsmål, og [git-install.md](git-install.md) viser deg hvert valg | Åpne `Terminal`, skriv `git --version` og trykk Enter. Mangler Git, klikk `Install` i dialogen og vent. Mac stiller ingen av spørsmålene Windows stiller |
-| **Node.js** | Node.js lager Word- og PowerPoint-filer med AI i Claude Code. Last ned fra [nodejs.org](https://nodejs.org/en/download) | Velg «Windows Installer», eller bruk [denne linken](https://nodejs.org/dist/v24.20.0/node-v24.20.0-x64.msi). **NB!** Ikke bruk `winget install OpenJS.NodeJS.LTS`. Den legger ofte ikke Node.js på PATH | Velg «macOS Installer», eller bruk [denne linken](https://nodejs.org/dist/v24.20.0/node-v24.20.0.pkg). Filen virker på både Apple Silicon (M1 til M4) og Intel |
+| Program | Beskrivelse                                                                                                                                                                        | Windows | macOS |
+| --- |-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------| --- | --- |
+| **Visual Studio Code** | Her ser du på og endrer filene du får i workshopen. Last ned fra [code.visualstudio.com](https://code.visualstudio.com/)                                                                | Kjør installasjonsfilen. Behold standardvalgene | Pakk ut filen du laster ned, og dra `Visual Studio Code` inn i mappen `Programmer` |
+| **Git** | Git ruller tilbake endringer som ikke virket, og deler AI-verktøy i teamet                                                                                                              | Last ned fra [git-scm.com](https://git-scm.com/download/win). Installasjonsprogrammet stiller mange spørsmål, og [git-install.md](git-install.md) viser deg hvert valg | Åpne `Terminal`, skriv `git --version` og trykk Enter. Mangler Git, klikk `Install` i dialogen og vent. Mac stiller ingen av spørsmålene Windows stiller |
+| **Node.js** | Node.js lager Word- og PowerPoint-filer med AI i Claude Code. Last ned fra [nodejs.org](https://nodejs.org/en/download)                                                                 | Velg «Windows Installer», eller bruk [denne linken](https://nodejs.org/dist/v24.20.0/node-v24.20.0-x64.msi). **NB!** Ikke bruk `winget install OpenJS.NodeJS.LTS`. Den legger ofte ikke Node.js på PATH | Velg «macOS Installer», eller bruk [denne linken](https://nodejs.org/dist/v24.20.0/node-v24.20.0.pkg). Filen virker på både Apple Silicon (M1 til M4) og Intel |
 | **GitHub CLI** | Logger deg inn på GitHub én gang. Etterpå virker `git clone` og `git push` uten passord, uten tilgangsnøkkel og uten SSH-nøkkel. Last ned fra [cli.github.com](https://cli.github.com/) | Velg «Windows — download the MSI», eller bruk [denne linken](https://github.com/cli/cli/releases/download/v2.98.0/gh_2.98.0_windows_amd64.msi) | Bruk [denne linken](https://github.com/cli/cli/releases/download/v2.98.0/gh_2.98.0_macOS_universal.pkg). Filen virker på både Apple Silicon (M1 til M4) og Intel |
 
 Start maskinen på nytt etter at du har installert Node.js, Git og GitHub CLI. Først da ser Claude dem
