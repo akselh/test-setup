@@ -1,13 +1,11 @@
 ---
 name: pre-workshop-check
 description: >
-  Check that this machine can run the Agentic Edge workshop, and write one
+  Check that this machine are setup for the Agentic Edge workshop, and write one
   report the attendee sends to the workshop host. Use when the user says
   "kjør sjekken før workshopen", "sjekk maskinen", "er maskinen klar",
   "pre-workshop-check", "check my machine", or opens this project and asks
-  what to do. The check reads Node.js, Git and VS Code, repairs the PATH when
-  a program is on disk but absent from the PATH, sets the Git identity, and
-  then makes a real Word file and a real PowerPoint file.
+  what to do. 
 ---
 
 # Pre-workshop check
@@ -24,11 +22,33 @@ The result is one short report in Norwegian. The skill shows the report in the
 chat and writes it to a file. The attendee sends that file to the workshop
 host.
 
+## Workshop configuration — read this first
+Two values change for each customer: the GitHub organisation and the workshop
+repository. They live in `workshop-info.md` in the root of this project. Read
+that file before step 4b:
+
+```
+cat workshop-info.md
+```
+
+Take the value behind **GitHub organisation** and the value behind **Workshop
+repository**. Both stand in backticks. This file names no organisation, and
+you must never write one into it.
+
+`workshop-info.md` is absent: say so in one Norwegian sentence, skip step 4b,
+and write `IKKE TESTET - workshop-info.md mangler` in the three GitHub lines
+of the report. Every other step runs as normal.
+
+Below, `<ORG>` means the organisation and `<REPO>` means the repository from
+that file. Put the real values in place of them.
+
 ## Rules for the whole run
 - Install no program. Never edit the user settings of VS Code.
 - You can change one thing on the machine, and only after the user says yes:
   the PATH (step 3) and the Git identity (step 4). Every other change is
   forbidden.
+- Never run `gh auth login`, and never run `gh auth logout`. The login is
+  interactive and belongs to the user. You read the state, and you report it.
 - Run every step, also after a failure. The report needs the full picture.
 - Keep the exact error text of a step that failed. Never guess a cause.
 - Write the report in Norwegian, and write it last.
@@ -58,10 +78,15 @@ command -v node && node --version
 command -v npm && npm --version
 command -v git && git --version
 command -v code && code --version
+command -v gh && gh --version
 ```
 
 `npm` comes with Node.js. Name it in the report only when `node` works and
 `npm` is absent.
+
+`gh` is GitHub CLI. It is absent from the PATH only when it is not installed,
+because both installers write to a folder on the PATH. Give the download link
+in the report, and go on to step 4b anyway.
 
 `code` is a special case. The installer of VS Code adds it to the PATH only
 when the user ticked the box. A `code` that is absent from the PATH does not
@@ -187,6 +212,89 @@ Write in the report that the check set the value.
 
 Skip this step when `git` is absent from the PATH.
 
+## Step 4b — the GitHub login and the access to the organisation
+The workshop clones a repository of the company. This step proves that the
+attendee can read it. Skip the whole step when `gh` is absent from the PATH,
+and write `MANGLER` in the three report lines.
+
+### 4b.1 Read the login
+```
+gh auth status
+```
+
+The command writes `Logged in to github.com account <navn>` after a good
+login. Take the account name for the report.
+
+The command fails with `You are not logged into any GitHub hosts` when the
+login is missing. That is a red verdict. Tell the user in Norwegian to run
+`gh auth login` in PowerShell or in Terminal, and to answer **Yes** to
+«Authenticate Git with your GitHub credentials?». Point at
+`installation-guide.md`, part 3. Then go on to the next step.
+
+### 4b.2 Test Git against GitHub
+The login of `gh` can be good while Git still asks for a password, because the
+user answered **No** to «Authenticate Git with your GitHub credentials?». Test
+Git itself, and never trust the configuration file alone:
+
+```
+GIT_TERMINAL_PROMPT=0 git ls-remote https://github.com/<REPO>; echo "exit=$?"
+```
+
+Use the repository from `workshop-info.md`, see the top of this file. The
+part `GIT_TERMINAL_PROMPT=0` is a must, and not a detail. Without it Git asks
+for a user name, and the command then waits for ever, because you cannot
+answer it.
+
+**Judge this test by the exit code, and never by the output.** A repository
+with no commits in it answers with `exit=0` and with no text at all. Empty
+output is a pass.
+
+- `exit=0`: Git works. Write `OK`.
+- The command fails with `could not read Username`: Git has no credentials.
+  Write `IKKE SATT OPP`.
+- The command fails with `Authentication failed` or `repository not found`:
+  Git has no credentials for github.com, or the user has no access. Step 4b.3
+  separates the two cases.
+
+The repair for a missing credential helper is one command. It needs no new
+login. Ask the user first, in one Norwegian sentence, then run:
+
+```
+gh auth setup-git
+```
+
+Run `git ls-remote` a second time after that, and write the result of the
+second attempt in the report.
+
+For a diagnosis, and never for a verdict, you can read the configuration:
+
+```
+git config --get-all credential.https://github.com.helper
+git config --get-all credential.helper
+```
+
+`!gh auth git-credential` comes from `gh auth setup-git`. A Mac can work with
+`osxkeychain` instead, and Windows with `manager`. All three are good when
+`git ls-remote` works.
+
+### 4b.3 Read the repository of the organisation
+Use the repository from `workshop-info.md`, see the top of this file.
+
+```
+gh repo view <REPO> --json name,visibility
+```
+
+- The command writes the name: the access is good. Write `OK`.
+- The command fails with `Could not resolve to a Repository`: the user is not
+  a member of the organisation, or the invitation is still open. GitHub hides
+  a private repository from a user without access, so the error names no
+  organisation. Write `INGEN TILGANG` in the report, and tell the user to look
+  for the invitation e-mail from GitHub, and to contact the coordinator when
+  the e-mail is absent.
+- The command fails with another text: write that text in the report.
+
+Read nothing else, and clone nothing. The check only reads.
+
 ## Step 5 — make the Word file
 Use the `docx` skill from Anthropic. Claude Desktop supplies it. It shows in
 the skill list as `docx`, or as `anthropic-skills:docx`. Start it with the
@@ -305,6 +413,13 @@ Git:         <versjon>
 Git-identitet: SATT av <navn> <e-post>
              (eller: SATT AV SJEKKEN / IKKE SATT)
 VS Code:     <versjon>   (eller: MANGLER / FOR GAMMEL, krever 1.131)
+GitHub CLI:  <versjon>   (eller: MANGLER)
+GitHub-innlogging: OK - logget inn som <kontonavn>
+             (eller: IKKE LOGGET INN / MANGLER)
+Git mot GitHub: OK - git ls-remote leste repoet
+             (eller: IKKE SATT OPP / SATT OPP AV SJEKKEN / IKKE TESTET)
+Org-tilgang: OK - leste <REPO>
+             (eller: INGEN TILGANG / IKKE TESTET)
 Word-test:   OK - word-example.docx, <n> byte
              (eller: FEILET - <den eksakte feilmeldingen>)
 PowerPoint:  OK - powerpoint-example.pptx, <n> byte
@@ -324,8 +439,9 @@ without spaces. Write "ukjent" when the user gave no name.
 
 Rules for the report:
 
-- The verdict line is green only when Node.js, npm, Git, VS Code, the Word test
-  and the PowerPoint test are all OK.
+- The verdict line is green only when Node.js, npm, Git, VS Code, GitHub CLI,
+  the GitHub login, the access to the organisation, the Word test and the
+  PowerPoint test are all OK.
 - `PÅ DISK, MEN IKKE PÅ PATH` is red, not green.
 - Give the link for each program that is absent:
   - Node.js: https://nodejs.org/en/download
@@ -333,6 +449,14 @@ Rules for the report:
     `git-install.md` in this folder
   - Git on a Mac: the command `git --version` in Terminal starts the install
   - VS Code: https://code.visualstudio.com/download
+  - GitHub CLI: https://cli.github.com/, and the guide `installation-guide.md`
+    in this folder
+  - The GitHub login: the command `gh auth login`, and `installation-guide.md`
+    part 3
+- Two faults need the workshop coordinator, not IT, and the report must say so:
+  - a login that works, but no access to the organisation. The coordinator
+    sends the invitation.
+  - an attendee with no GitHub account at all.
 - Three faults need IT, and the report must say so:
   - a VS Code that the company controls and holds on an old version
   - a PATH that the company controls with a group policy, so the repair in

@@ -141,6 +141,10 @@ Velg **Git Credential Manager**. Dette er standardvalget.
 Det andre alternativet er «None». Med Git Credential Manager logger du inn én
 gang, og Git husker innloggingen.
 
+Installerer du GitHub CLI etterpå, tar `gh auth login` over innloggingen for
+github.com. Git Credential Manager gjelder da bare andre steder, for eksempel
+Azure DevOps. De to verktøyene kommer ikke i konflikt.
+
 ## 8. Ekstra valg (Configuring extra options)
 
 Skjermen spør: «Which features would you like to enable?»

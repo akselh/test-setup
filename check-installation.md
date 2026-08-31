@@ -6,9 +6,13 @@ workshop, se lenger ned.
 
 ## Før du starter
 
-Følg først [installation-guide.md](installation-guide.md) og installer VS Code, Git og Node.js.
-Guiden dekker både Windows og Mac. På Windows viser [git-install.md](git-install.md) deg hvert
-valg i Git-installasjonen.
+Følg først [installation-guide.md](installation-guide.md). Guiden dekker både Windows og Mac.
+Den har tre deler, og alle tre må være ferdige før du starter sjekken:
+
+1. Du har en GitHub-konto med 2FA (2-faktor autentisering), og du har godtatt GitHub-invitasjonen fra din bedrift.
+2. Du har installert VS Code, Git, Node.js og GitHub CLI. På Windows viser
+   [git-install.md](git-install.md) deg hvert valg i Git-installasjonen.
+3. Du har kjørt `gh auth login` i en terminal.
 
 Du må også ha Claude (Desktop applikasjon, _ikke_ websiden claude.ai) med tilgang til Claude Code,
 og du må være logget inn i Claude.
@@ -49,8 +53,9 @@ bedrift.
 
 ## Hva sjekken gjør på maskinen din
 
-Sjekken leser først om Node.js, Git og VS Code er installert. Deretter lager den en Word-fil og en
-PowerPoint-fil, for å vise at eksporten virker.
+Sjekken leser først om Node.js, Git, VS Code og GitHub CLI er installert. Deretter kontrollerer
+den at du er logget inn på GitHub, og at du får lest et repository i bedriftens organisasjon.
+Til slutt lager den en Word-fil og en PowerPoint-fil, for å vise at eksporten virker.
 
 Sjekken skriver fire ting, alle i den nye mappen på disken din. Mappen heter
 `C:\dev\workshop-setup-test` på Windows og `~/dev/workshop-setup-test` på Mac:
@@ -62,7 +67,10 @@ Sjekken skriver fire ting, alle i den nye mappen på disken din. Mappen heter
 
 Alle fire kan du slette etterpå. Ingen av dem ligger utenfor mappen.
 
-Sjekken installerer ingen programmer. Sjekken kan endre tre ting, og den spør deg først:
+Sjekken installerer ingen programmer, og den logger deg ikke inn på GitHub. Innloggingen gjør du
+selv med `gh auth login`, se [installation-guide.md](installation-guide.md).
+
+Sjekken kan endre tre ting, og den spør deg først:
 
 - PATH-en din, hvis Node.js eller Git ligger på disken, men Claude ikke finner dem.
 - Navnet og e-postadressen din i Git, hvis du ikke har satt dem fra før.
