@@ -48,7 +48,9 @@ that file. Put the real values in place of them.
 ## Rules for the whole run
 - Install no program yourself, and never download an installer. When a program
   is missing, the **user** installs it, and you wait — see «The install
-  offer» below. Never edit the user settings of VS Code.
+  offer» below. One exception exists: GitHub CLI, which you can install into
+  the home folder after a yes — see «The gh install». Never edit the user
+  settings of VS Code.
 - Repair every fault you can repair before you write the report. The report
   describes the machine as it stands at the end of the run, not as it stood at
   the start.
@@ -76,6 +78,9 @@ So:
 - Never give a full path to the `docx` skill or to the `pptx` skill.
 - A full path is a diagnosis tool in step 3 only. It never changes a verdict.
 
+One exception exists, for `gh` alone, after the check itself installed it —
+«The gh install» below names it and the reasons.
+
 ## The install offer — when a program is not installed
 A program that is absent from the PATH **and** absent from the disk is not
 installed. Do not park that fault in the report and move on. The user sits at
@@ -97,9 +102,65 @@ the machine now, and an install takes two minutes. So:
      check once more. Write `INSTALLERT UNDER SJEKKEN - krever omstart av
      Claude Desktop` in the report.
 
-The offer covers Node.js, Git, VS Code and GitHub CLI, in step 2 and in step
-3b. You never download an installer, and you never run one. That rule holds
-also when the user asks you to.
+The offer covers Node.js, Git and VS Code, in step 2 and in step 3b. Those
+three need a real installer, and only the user runs installers. GitHub CLI
+has its own way — see the next section. For the three above you never
+download an installer, and you never run one. That rule holds also when the
+user asks you to.
+
+## The gh install — the one program you install yourself
+GitHub CLI is different from the other programs: it is one self-contained
+binary, the official release ships it as a plain zip, and it can live in the
+home folder without administrator rights. So when `gh` is missing, you do
+not send the user to an installer — you offer to do it, and after a yes you
+do it.
+
+Ask the user in one Norwegian sentence for permission to install GitHub CLI
+into the home folder. Wait for the answer. After a no: write `MANGLER` in
+the report, with the link, and go on.
+
+After a yes, on a Mac:
+
+```
+ARK=$(uname -m | sed 's/x86_64/amd64/')
+curl -sL "https://github.com/cli/cli/releases/download/v2.98.0/gh_2.98.0_macOS_${ARK}.zip" -o /tmp/gh.zip
+unzip -oq /tmp/gh.zip -d /tmp
+mkdir -p ~/.local/bin
+cp "/tmp/gh_2.98.0_macOS_${ARK}/bin/gh" ~/.local/bin/
+grep -q '.local/bin' ~/.zprofile 2>/dev/null || echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.zprofile
+~/.local/bin/gh --version
+```
+
+On Windows (the quoting rule from step 3c holds here too):
+
+```
+powershell -NoProfile -Command 'curl.exe -sL "https://github.com/cli/cli/releases/download/v2.98.0/gh_2.98.0_windows_amd64.zip" -o "$env:TEMP\gh.zip"; Expand-Archive "$env:TEMP\gh.zip" -DestinationPath "$env:LOCALAPPDATA\Programs\gh" -Force; $p=[Environment]::GetEnvironmentVariable("Path","User"); $b="$env:LOCALAPPDATA\Programs\gh\bin"; if ($p -notlike "*$b*") { [Environment]::SetEnvironmentVariable("Path", ($p.TrimEnd(";") + ";" + $b), "User") }; & "$env:LOCALAPPDATA\Programs\gh\bin\gh.exe" --version'
+```
+
+The last line prints the version: the install worked. Write `INSTALLERT
+UNDER SJEKKEN` in the report, with the version. Download from the address
+above and from nowhere else — it is the official release of GitHub CLI, and
+the same address stands in `installation-guide.md`.
+
+For the rest of this run, call the new `gh` through its full path —
+`~/.local/bin/gh` on a Mac, `$LOCALAPPDATA/Programs/gh/bin/gh.exe` on
+Windows. This breaks the rule of the masking trap on purpose, and it is safe
+for `gh` alone, for two reasons:
+
+- The install above put the folder on the PATH of every **new** terminal and
+  of the next start of Claude Desktop. Only this running process misses it.
+- The workshop itself does not need `gh` on the PATH. Git reaches `gh`
+  through the credential helper, and `gh auth setup-git` writes the **full
+  path** of the binary into the Git configuration. Prove that in step 4b.2:
+  run the repair through the full path, then read
+  `git config --get-all credential.https://github.com.helper` and see that
+  the helper names the home folder. The helper names another gh, or none:
+  that is a failure — report it.
+
+The login stays with the user: tell the user to open a **new** terminal
+window — opened after the install, so it has the new PATH — and run
+`gh auth login` there. The terminal does not know `gh`: give the user the
+full path to run instead.
 
 ## Step 1 — say what you do
 Say in one Norwegian sentence that you start the check. Then run. Ask no
@@ -119,9 +180,19 @@ command -v gh && gh --version
 `npm` comes with Node.js. Name it in the report only when `node` works and
 `npm` is absent.
 
-`gh` is GitHub CLI. It is absent from the PATH only when it is not installed,
-because both installers write to a folder on the PATH. Make the install offer
-(see above), and go on to step 4b anyway.
+`gh` is GitHub CLI. The normal installers write to a folder on the PATH, but
+`installation-guide.md` also shows an install without administrator rights,
+into the home folder. So when `gh` is absent from the PATH, look at these two
+places first:
+
+- Mac: `~/.local/bin/gh`
+- Windows: `$LOCALAPPDATA/Programs/gh/bin/gh.exe`
+
+The file sits there: the PATH is the fault. Write `PÅ DISK, MEN IKKE PÅ PATH`
+in the report, and tell the user to restart as the guide says — on a Mac
+close Claude completely and open it again, on Windows log out and in. The
+file is absent there too: offer to install it — see «The gh install» above.
+Go on to step 4b in every case.
 
 `code` is a special case. The installer of VS Code adds it to the PATH only
 when the user ticked the box. A `code` that is absent from the PATH does not
@@ -542,7 +613,8 @@ Git:         <versjon>
              (eller: MANGLER / PÅ DISK, MEN IKKE PÅ PATH
               / INSTALLERT UNDER SJEKKEN - krever omstart av Claude Desktop)
 VS Code:     <versjon>   (eller: MANGLER / FOR GAMMEL, krever 1.131)
-GitHub CLI:  <versjon>   (eller: MANGLER / INSTALLERT UNDER SJEKKEN)
+GitHub CLI:  <versjon>   (eller: MANGLER / PÅ DISK, MEN IKKE PÅ PATH
+                          / INSTALLERT UNDER SJEKKEN)
 
 Tester:
 GitHub-innlogging: OK - logget inn som <kontonavn>

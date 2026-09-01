@@ -84,14 +84,17 @@ Alle fire kan du eventuelt slette etterpå. I tillegg legger sjekken bedriftens 
 egen mappe ved siden av, i `dev`-mappen. **Den mappen beholder du** — det er den du bruker i
 workshopen.
 
-Sjekken installerer ingen programmer selv, men mangler et program helt, spør den om du vil
-installere det nå — du klikker da selv gjennom installasjonen mens sjekken venter. Den logger
+Sjekken installerer ingen programmer selv, med ett unntak: mangler GitHub CLI, kan sjekken
+legge det i hjemmemappen din for deg — det trenger ikke administratorrettigheter, og sjekken
+spør deg først. Mangler et av de andre programmene, spør den om du vil installere det nå — du
+klikker da selv gjennom installasjonen mens sjekken venter. Den logger
 deg heller ikke inn på GitHub. Mangler innloggingen, ber sjekken deg kjøre `gh auth login` i et
 eget terminalvindu, og fortsetter når du er ferdig. Se [installation-guide.md](installation-guide.md).
 
 Sjekken kan endre disse tingene, og den spør deg først hver gang:
 
 - PATH-en din, hvis Node.js eller Git ligger på disken, men Claude ikke finner dem.
+- GitHub CLI kan den installere i hjemmemappen din, hvis det mangler helt.
 - Navnet og e-postadressen din i Git, hvis du ikke har satt dem fra før.
 - Innstillingen for sertifikater i npm, hvis firmaets brannmur stopper nedlastingen.
   Sjekken kopierer da sertifikatene fra Windows til filen `windows-root-ca.pem` i

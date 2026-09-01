@@ -23,7 +23,7 @@ diff and commits.
 | --- | --- |
 | `installation-guide.md` | Node.js version and both installer links (`.msi` and `.pkg`). GitHub CLI version and both installer links. The «sist kontrollert» date at the bottom. |
 | `git-install.md` | The Git for Windows version, in the text and in the example file name `Git-<versjon>-64-bit.exe`. Eight screenshots of the installer. |
-| `.claude/skills/pre-workshop-check/SKILL.md` | The minimum VS Code version (today 1.131) and the download links in step 7. |
+| `.claude/skills/pre-workshop-check/SKILL.md` | The GitHub CLI version and both zip links in «The gh install». The minimum VS Code version (today 1.131) and the download links in step 7. Keep the gh version here identical to the one in `installation-guide.md`. |
 | `check-installation.md`, `github-account.md` | Links only, no versions. |
 
 ## Rules
