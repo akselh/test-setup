@@ -157,10 +157,57 @@ for `gh` alone, for two reasons:
   the helper names the home folder. The helper names another gh, or none:
   that is a failure — report it.
 
-The login stays with the user: tell the user to open a **new** terminal
-window — opened after the install, so it has the new PATH — and run
-`gh auth login` there. The terminal does not know `gh`: give the user the
-full path to run instead.
+The login stays with the user. Offer to open the terminal window for the
+user — see «Open a terminal for the user» below. The user opens one
+themselves instead: the window must be **new** — opened after the install,
+so it has the new PATH — and when that terminal does not know `gh`, give
+the user the full path to run.
+
+## Open a terminal for the user
+Two moments send the user to their own terminal for `gh auth login`: right
+after «The gh install», and in step 4b.1. You can open that terminal window
+yourself. Offer it in the same Norwegian sentence that asks for the login,
+and wait for the answer.
+
+After a yes, on a Mac:
+
+```
+osascript -e 'tell application "Terminal" to do script "gh auth login"' -e 'tell application "Terminal" to activate'
+```
+
+On Windows:
+
+```
+powershell -NoProfile -Command 'Start-Process powershell -ArgumentList "-NoExit","-Command","gh auth login"'
+```
+
+When the check itself installed `gh` in this run, replace `gh auth login`
+with the full path:
+
+- Mac: `~/.local/bin/gh auth login`. The new Terminal window runs a login
+  shell and reads `.zprofile`, so bare `gh` works there too — but the full
+  path works always.
+- Windows: a window from `Start-Process` inherits the PATH of **this**
+  process, not the repaired user PATH, so bare `gh` fails there. Use:
+
+  ```
+  powershell -NoProfile -Command 'Start-Process powershell -ArgumentList "-NoExit","-Command","& `"$env:LOCALAPPDATA\Programs\gh\bin\gh.exe`" auth login"'
+  ```
+
+Two rules for this window:
+
+- On a Mac the first `osascript` call can open a macOS permission dialog
+  («Claude» wants to control «Terminal»). The user clicks *Ikke tillat*, or
+  the command fails: do not retry. Tell the user to open a terminal
+  themselves, and give the exact command to run.
+- The window belongs to the user. You never read it, and you never type in
+  it. Ask the user to say when the login is done, and wait — see step 4b.1
+  for what happens next.
+
+The login state lands on the disk the moment `gh auth login` finishes.
+Every command you run starts a fresh process that reads that state again.
+So the login needs **no** restart of Claude Desktop — only a PATH change
+needs that.
 
 ## Step 1 — say what you do
 Say in one Norwegian sentence that you start the check. Then run. Ask no
@@ -326,9 +373,11 @@ Skip this step when `git` is absent from the PATH.
 ## Step 4b — the GitHub login and the access to the organisation
 The workshop clones a repository of the company. This step proves that the
 attendee can read it, and ends with the clone itself. `gh` is absent from
-the PATH: skip 4b.1 and 4b.3, and write `MANGLER` in their report lines —
-but run 4b.2 and 4b.4 anyway, because both work with `git` alone, and they
-can still pass.
+the PATH **and** the check did not install it: skip 4b.1 and 4b.3, and
+write `MANGLER` in their report lines — but run 4b.2 and 4b.4 anyway,
+because both work with `git` alone, and they can still pass. The check
+installed `gh` in this run: run every part of 4b, and call `gh` through
+its full path — see «The gh install».
 
 ### 4b.1 Read the login
 ```
@@ -340,14 +389,18 @@ login. Take the account name for the report.
 
 The command fails with `You are not logged into any GitHub hosts` when the
 login is missing. Do not go straight to the report — the user can repair this
-now, in the middle of the run. Tell the user in Norwegian to open PowerShell
-or Terminal **next to Claude**, run `gh auth login` there, and answer **Yes**
-to «Authenticate Git with your GitHub credentials?». Point at the steps in
-`installation-guide.md`. Ask the user to say when the login is done, and
-wait.
+now, in the middle of the run. Offer to open a terminal window with
+`gh auth login` for the user — see «Open a terminal for the user» above.
+The user declines, or the window does not open: tell the user in Norwegian
+to open PowerShell or Terminal **next to Claude** and run `gh auth login`
+there. In both cases the user must answer **Yes** to «Authenticate Git with
+your GitHub credentials?». Point at the steps in `installation-guide.md`.
+Ask the user to say when the login is done, and wait.
 
 The user says done: run `gh auth status` again, and continue with the result
-of the second attempt. Write `logget inn under sjekken` in the report.
+of the second attempt. The new login works at once in this session, and no
+restart of Claude Desktop is needed — see «Open a terminal for the user».
+Write `logget inn under sjekken` in the report.
 
 The user says no, or the login fails: that is a red verdict. Write it in the
 report, and go on to the next step.
@@ -384,7 +437,9 @@ output is a pass.
   separates the two cases.
 
 The repair for a missing credential helper is one command. It needs no new
-login. Ask the user first, in one Norwegian sentence, then run:
+login. The repair needs `gh`: when `gh` is missing from both the PATH and
+the disk, skip the repair, write the verdict of the first attempt, and go
+on. Otherwise ask the user first, in one Norwegian sentence, then run:
 
 ```
 gh auth setup-git
