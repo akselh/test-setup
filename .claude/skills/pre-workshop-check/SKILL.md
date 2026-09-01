@@ -14,9 +14,11 @@ description: >
 This skill answers one question: can this machine run the workshop?
 
 It answers with real tests, not with a list of installed programs. First it
-reads the three programs that the workshop needs. Then it makes a Word file
-from `word-example.md` and a PowerPoint file from `powerpoint-example.md`. The
-machine can do the work when both files appear.
+reads the programs that the workshop needs. Then it proves the GitHub access
+by cloning the workshop repository of the company, so the attendee arrives
+with the code in place. Last it makes a Word file from `word-example.md` and
+a PowerPoint file from `powerpoint-example.md`. The machine can do the work
+when the clone and both files appear.
 
 The result is one short report in Norwegian. The skill shows the report in the
 chat and writes it to a file. The attendee sends that file to the workshop
@@ -37,7 +39,7 @@ organisation, and you must never write a customer name into it — the name
 lives in `workshop-info.md` only.
 
 `workshop-info.md` is absent: say so in one Norwegian sentence, skip step 4b,
-and write `IKKE TESTET - workshop-info.md mangler` in the three GitHub lines
+and write `IKKE TESTET - workshop-info.md mangler` in the four GitHub lines
 of the report. Every other step runs as normal.
 
 Below, `<ORG>` means the organisation and `<REPO>` means the repository from
@@ -252,8 +254,10 @@ Skip this step when `git` is absent from the PATH.
 
 ## Step 4b — the GitHub login and the access to the organisation
 The workshop clones a repository of the company. This step proves that the
-attendee can read it. Skip the whole step when `gh` is absent from the PATH,
-and write `MANGLER` in the three report lines.
+attendee can read it, and ends with the clone itself. `gh` is absent from
+the PATH: skip 4b.1 and 4b.3, and write `MANGLER` in their report lines —
+but run 4b.2 and 4b.4 anyway, because both work with `git` alone, and they
+can still pass.
 
 ### 4b.1 Read the login
 ```
@@ -345,7 +349,74 @@ gh repo view <REPO> --json name,visibility
   the e-mail is absent.
 - The command fails with another text: write that text in the report.
 
-Read nothing else, and clone nothing. The check only reads.
+Read nothing else in the organisation. Step 4b.4 clones the workshop
+repository, and nothing else.
+
+### 4b.4 Clone the workshop repository
+The workshop starts with the repository on the disk. Clone it now. That
+proves the whole chain — Git, the credentials and the access — in the one
+command the workshop itself will need, and the attendee arrives with the
+code in place.
+
+Skip this step, and write `IKKE TESTET` in the report, when `git` is absent
+from the PATH, or when step 4b.3 ended in `INGEN TILGANG`.
+
+Clone with `gh`, and with bare `git` only when `gh` is absent from the PATH.
+`gh` carries its own login, so the clone succeeds also on a machine where
+Git waits for a repair. The clone through `gh` therefore proves the access
+and nothing more — so right after a fresh clone, run one `git pull` inside
+it. The workshop day starts with exactly that command, in exactly that
+folder, and the pull uses the credentials of Git, not of `gh`. The verdict
+of the line «Git mot GitHub» still comes from step 4b.2 alone; the pull here
+is the confirmation in the real folder.
+
+The target folder sits **next to** this project folder, and carries the name
+of the repository. `<NAVN>` below means the part of `<REPO>` behind the
+slash. The project sits in `~/dev/workshop-setup-test`, so the clone lands in
+`~/dev/<NAVN>`.
+
+Look at the target first:
+
+- The folder `../<NAVN>` is absent: clone.
+
+  ```
+  gh repo clone <REPO> ../<NAVN>; echo "exit=$?"
+  ```
+
+  `gh` is absent from the PATH — use bare Git instead:
+
+  ```
+  GIT_TERMINAL_PROMPT=0 git clone https://github.com/<REPO> ../<NAVN>; echo "exit=$?"
+  ```
+
+  `exit=0` on the clone: run the pull inside the fresh clone.
+
+  ```
+  GIT_TERMINAL_PROMPT=0 git -C ../<NAVN> pull; echo "exit=$?"
+  ```
+
+  The pull answers `exit=0`: write `OK`, with the full path of the new
+  folder, and the note `git pull virker`. A warning about an empty
+  repository is still a pass. The clone or the pull fails: keep the exact
+  error text, and write `FEILET - <teksten>`. A pull that fails after a good
+  clone points at the credentials of Git — look at the result of step 4b.2
+  before you name a cause.
+
+- The folder `../<NAVN>` exists: never clone over it, and never delete it.
+  Read where it points:
+
+  ```
+  git -C ../<NAVN> remote get-url origin
+  ```
+
+  The answer names `<REPO>`: write `ALLEREDE KLONET`, and that is a pass.
+  Any other answer, or no git repository at all: write `FEILET - mappen
+  <full sti> er i veien`, and touch nothing.
+
+The pull belongs to a fresh clone only. In a folder that existed before this
+run, never pull, and never change a file — the folder can hold the work of
+the attendee. Tell the user in one Norwegian sentence where the folder
+landed, and that the workshop uses it.
 
 ## Step 5 — make the Word file
 Use the `docx` skill from Anthropic. Claude Desktop supplies it. It shows in
@@ -480,6 +551,8 @@ Org-tilgang: OK - leste <REPO>
              (eller: INGEN TILGANG / IKKE TESTET)
 Git mot GitHub: OK - git ls-remote leste repoet
              (eller: IKKE SATT OPP / SATT OPP AV SJEKKEN / IKKE TESTET)
+Workshop-repo klone-test:  OK - klonet <REPO> til <full sti>, git pull virker
+             (eller: ALLEREDE KLONET / FEILET - <feilmeldingen> / IKKE TESTET)
 Word-test:   OK - word-example.docx, <n> byte
              (eller: FEILET - <den eksakte feilmeldingen>)
 PowerPoint:  OK - powerpoint-example.pptx, <n> byte
@@ -500,8 +573,9 @@ without spaces. Write "ukjent" when the user gave no name.
 Rules for the report:
 
 - The verdict line is green only when Node.js, npm, Git, VS Code, GitHub CLI,
-  the GitHub login, the access to the organisation, the Word test and the
-  PowerPoint test are all OK.
+  the GitHub login, the access to the organisation, the clone of the workshop
+  repository, the Word test and the PowerPoint test are all OK.
+  `ALLEREDE KLONET` counts as OK.
 - `PÅ DISK, MEN IKKE PÅ PATH` is red, not green.
 - A program that the user installed during the check counts green when the
   PATH lookup answers, and red when the verdict waits for a restart of
@@ -537,4 +611,5 @@ Tell the user in one Norwegian sentence to send the file
 `pre-workshop-check-<navn>.md` to the workshop host.
 
 Then say that `word-example.docx`, `powerpoint-example.pptx` and `node_modules`
-are safe to delete.
+are safe to delete — but that the cloned workshop folder next to this project
+stays, because the workshop uses it.

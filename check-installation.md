@@ -68,10 +68,11 @@ av dem helt, spør sjekken om du vil installere det nå. Sier du nei, eller feil
 skriver sjekken det i rapporten, med lenke.
 
 Deretter kontrollerer sjekken at du er logget inn på GitHub, og at du får lest et repository i
-bedriftens organisasjon. Til slutt lager den en Word-fil og en PowerPoint-fil, for å vise at
-eksporten virker.
+bedriftens organisasjon. Så kloner den bedriftens workshop-repository til `dev`-mappen, slik at
+du møter til workshopen med alt klart (innholdet i workshop-repository får du først i workshopen).
+Til slutt lager den en Word-fil og en PowerPoint-fil, for å vise at eksporten virker.
 
-Sjekken skriver fire ting, alle i den nye mappen på disken din. Mappen heter
+Sjekken skriver fire ting i den nye mappen på disken din. Mappen heter
 `C:\dev\workshop-setup-test` på Windows og `~/dev/workshop-setup-test` på Mac:
 
 - `word-example.docx`, en Word-fil laget fra `word-example.md`.
@@ -79,7 +80,9 @@ Sjekken skriver fire ting, alle i den nye mappen på disken din. Mappen heter
 - `node_modules`, en mappe med kode som Word- og PowerPoint-testen trenger.
 - `pre-workshop-check-<navnet ditt>.md`, rapporten du sender til koordinator.
 
-Alle fire kan du slette etterpå. Ingen av dem ligger utenfor mappen.
+Alle fire kan du eventuelt slette etterpå. I tillegg legger sjekken bedriftens workshop-repository i en
+egen mappe ved siden av, i `dev`-mappen. **Den mappen beholder du** — det er den du bruker i
+workshopen.
 
 Sjekken installerer ingen programmer selv, men mangler et program helt, spør den om du vil
 installere det nå — du klikker da selv gjennom installasjonen mens sjekken venter. Den logger
