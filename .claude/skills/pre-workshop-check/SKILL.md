@@ -139,8 +139,7 @@ powershell -NoProfile -Command 'curl.exe -sL "https://github.com/cli/cli/release
 
 The last line prints the version: the install worked. Write `INSTALLERT
 UNDER SJEKKEN` in the report, with the version. Download from the address
-above and from nowhere else — it is the official release of GitHub CLI, and
-the same address stands in `installation-guide.md`.
+above and from nowhere else — it is the official release of GitHub CLI.
 
 For the rest of this run, call the new `gh` through its full path —
 `~/.local/bin/gh` on a Mac, `$LOCALAPPDATA/Programs/gh/bin/gh.exe` on
@@ -227,10 +226,9 @@ command -v gh && gh --version
 `npm` comes with Node.js. Name it in the report only when `node` works and
 `npm` is absent.
 
-`gh` is GitHub CLI. The normal installers write to a folder on the PATH, but
-`installation-guide.md` also shows an install without administrator rights,
-into the home folder. So when `gh` is absent from the PATH, look at these two
-places first:
+`gh` is GitHub CLI. The check installs it into the home folder when it is
+missing — see «The gh install» — and an earlier run can have done the same.
+So when `gh` is absent from the PATH, look at these two places first:
 
 - Mac: `~/.local/bin/gh`
 - Windows: `$LOCALAPPDATA/Programs/gh/bin/gh.exe`
@@ -394,8 +392,9 @@ now, in the middle of the run. Offer to open a terminal window with
 The user declines, or the window does not open: tell the user in Norwegian
 to open PowerShell or Terminal **next to Claude** and run `gh auth login`
 there. In both cases the user must answer **Yes** to «Authenticate Git with
-your GitHub credentials?». Point at the steps in `installation-guide.md`.
-Ask the user to say when the login is done, and wait.
+your GitHub credentials?». Point at the section «Innlogging på GitHub» in
+`check-installation.md`. Ask the user to say when the login is done, and
+wait.
 
 The user says done: run `gh auth status` again, and continue with the result
 of the second attempt. The new login works at once in this session, and no
@@ -717,9 +716,10 @@ Rules for the report:
     `git-install.md` in this folder
   - Git on a Mac: the command `git --version` in Terminal starts the install
   - VS Code: https://code.visualstudio.com/download
-  - GitHub CLI: https://cli.github.com/, and the guide `installation-guide.md`
-    in this folder
-  - The GitHub login: the command `gh auth login`, and `installation-guide.md`
+  - GitHub CLI: the check installs it — write that a new run of the check
+    installs it after a yes, or point at https://cli.github.com/
+  - The GitHub login: the command `gh auth login`, and the section
+    «Innlogging på GitHub» in `check-installation.md`
 - Two faults need the workshop coordinator, not IT, and the report must say so:
   - a login that works, but no access to the organisation. The coordinator
     sends the invitation.

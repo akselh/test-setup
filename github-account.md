@@ -32,5 +32,6 @@ Denne guiden tar tid hos andre enn deg, så start med den.
 5. Administrator inviterer deg til bedriftens GitHub-konto (organisasjonen). Du får en e-post fra GitHub.
    Åpne e-posten og klikk **Join** for å godta invitasjonen.
 
-Logg deg inn på GitHub fra maskinen din når du har installert GitHub CLI. Det står i
+Innloggingen på GitHub fra maskinen din skjer under
+[sjekken etter installasjon](check-installation.md), etter at du har fulgt
 [installation-guide.md](installation-guide.md).

@@ -12,7 +12,8 @@ Du trenger dette før du starter:
    med 2FA (2-faktor autentisering), og du har godtatt GitHub-invitasjonen fra din bedrift.
 2. Du har installert VS Code, Git, Node.js og GitHub CLI, se
    [installation-guide.md](installation-guide.md).
-3. Du har kjørt `gh auth login`, se [installation-guide.md](installation-guide.md).
+3. Innlogging til GitHub (`gh auth login`) trenger du ikke gjøre på forhånd — sjekken hjelper
+   deg underveis, se «Innlogging på GitHub» under.
 
 Og så må du ha Claude (Desktop applikasjon, _ikke_ websiden claude.ai) med tilgang til Claude Code, og du er logget 
 inn i Claude med brukeren tildelt av din bedrift. Claude er ikke med i denne installasjonsguiden da det er 
@@ -33,7 +34,7 @@ Har du hoppet over noe av dette, går sjekken likevel: den finner det som mangle
 
 ```
 Dersom mappen C:\dev\workshop-setup-test ikke finnes: Klon https://github.com/akselh/test-setup til C:\dev\workshop-setup-test, bytt så arbeidsmappe dit.
-Dersom mappen finnes, bytt til denne mappen som arbeidsmappe.
+Dersom mappen finnes, bytt til denne mappen som arbeidsmappe og kjør git pull, slik at sjekken er oppdatert.
 
 Kjør pre-workshop-check skillen.
 ```
@@ -42,7 +43,7 @@ Kjør pre-workshop-check skillen.
 
 ```
 Dersom mappen ~/dev/workshop-setup-test ikke finnes: Klon https://github.com/akselh/test-setup til ~/dev/workshop-setup-test, bytt så arbeidsmappe dit.
-Dersom mappen finnes, bytt til denne mappen som arbeidsmappe.
+Dersom mappen finnes, bytt til denne mappen som arbeidsmappe og kjør git pull, slik at sjekken er oppdatert.
 
 Kjør pre-workshop-check skillen.
 ```
@@ -59,6 +60,26 @@ Claude gjør all sjekk. NB! Sjekken bruker en egen `dev`-mappe, ikke `Dokumenter
 GitHub. Dette prosjektet er åpent, så kloningen trenger ingen tilgang til bedriftens organisasjon. 
 Be Claude i samme chat om å laste ned prosjektet fra samme GitHub-adresse som ZIP og pakke det ut i samme mappe i 
 stedet. Kjør så sjekken derfra — den vil da oppdage hva som mangler og hjelpe deg å fikse det.
+
+### Innlogging på GitHub
+
+Dette trenger du bare når du ikke allerede er logget inn — har du kjørt `gh auth login` før,
+ser sjekken det og hopper over hele steget. Ellers tilbyr Claude å åpne et terminalvindu for
+deg med kommandoen `gh auth login` klar. Selve innloggingen gjør du alltid selv, i det
+vinduet. Du må først ha godtatt GitHub-invitasjonen fra
+[github-account.md](github-account.md).
+
+Svar på spørsmålene med piltastene og Enter:
+
+- «What account do you want to log into?» → **GitHub.com**
+- «What is your preferred protocol for Git operations?» → **HTTPS**
+- «Authenticate Git with your GitHub credentials?» → **Yes**. Dette svaret er det viktigste.
+  Det gjør at Git bruker innloggingen din.
+- «How would you like to authenticate?» → **Login with a web browser**
+
+Kommandoen viser en kode på åtte tegn, for eksempel `A1B2-C3D4`. Kopier koden og trykk Enter.
+Nettleseren åpner seg — lim inn koden og godkjenn. Terminalen skriver
+`Logged in as <brukernavnet ditt>`. Si fra i chatten at du er ferdig, så fortsetter sjekken.
 
 ### Dette gjør du med resultatet av sjekken
 
@@ -92,8 +113,8 @@ Sjekken installerer ingen programmer selv, med ett unntak: mangler GitHub CLI, k
 legge det i hjemmemappen din for deg — det trenger ikke administratorrettigheter, og sjekken
 spør deg først. Mangler et av de andre programmene, spør den om du vil installere det nå — du
 klikker da selv gjennom installasjonen mens sjekken venter. Den logger
-deg heller ikke inn på GitHub. Mangler innloggingen, ber sjekken deg kjøre `gh auth login` i et
-eget terminalvindu, og fortsetter når du er ferdig. Se [installation-guide.md](installation-guide.md).
+deg heller ikke inn på GitHub. Mangler innloggingen, tilbyr sjekken å åpne et terminalvindu med
+`gh auth login` for deg, og fortsetter når du er ferdig. Se «Innlogging på GitHub» over.
 
 Sjekken kan endre disse tingene, og den spør deg først hver gang:
 

@@ -5,8 +5,8 @@ viktige verktøy installert på din maskin. Du må i første omgang igjennom 3 h
 
 1. Lage GitHub-konto og knytte denne til bedriftens GitHub-organisasjon
 2. Installere noen programmer
-3. Sjekke at innlogging til GitHub-kontoen din fungerer fra lokal maskin
-   - **Merk**: Dette steget kan du ikke gjøre før du er ferdig med alt i steg 1, se [github-account.md](github-account.md)
+3. Kjøre [sjekken etter installasjon](check-installation.md). Den hjelper deg også med
+   innloggingen til GitHub, så den trenger du ikke ordne på forhånd
    
 ## 1: Lage GitHub-konto og tilknytte til din bedrifts GitHub-organisasjon
 Dersom du ikke har laget deg GitHub-konto, følg [github-account.md](github-account.md) først.
@@ -34,30 +34,11 @@ installasjonen startes på nytt før de ser de nye verktøyene:
 - **macOS:** Avslutt Claude helt (Cmd+Q) og åpne det igjen. Du trenger ikke starte maskinen
   på nytt.
 
-## 3: Logg inn på GitHub
+## 3: Kjør sjekken
 
-Dette steget kan først gjøres etter du har mottatt e-post og godtatt GitHub-invitasjonen fra
-[github-account.md](github-account.md). I tillegg må GitHub CLI beskrevet over være installert.
-
-1. Åpne `PowerShell` på Windows, eller `Terminal` på Mac.
-2. Skriv denne kommandoen og trykk Enter:
-
-```
-gh auth login
-```
-
-3. Svar på spørsmålene med piltastene og Enter:
-   - «What account do you want to log into?» → **GitHub.com**
-   - «What is your preferred protocol for Git operations?» → **HTTPS**
-   - «Authenticate Git with your GitHub credentials?» → **Yes**. Dette svaret er det viktigste.
-     Det gjør at Git bruker innloggingen din
-   - «How would you like to authenticate?» → **Login with a web browser**
-4. Kommandoen viser en kode på åtte tegn, for eksempel `A1B2-C3D4`. Kopier koden.
-5. Trykk Enter. Nettleseren åpner seg. Lim inn koden og godkjenn.
-6. Terminalen skriver `Logged in as <brukernavnet ditt>`. Da er du ferdig.
-
-[Sjekken etter installasjon](check-installation.md) kontrollerer at innloggingen virker,
-og at du har tilgang til organisasjonen.
+Innloggingen på GitHub og kontrollen av alt over skjer i
+[sjekken etter installasjon](check-installation.md). Den siden viser deg også hvordan du
+svarer på spørsmålene fra `gh auth login`.
 
 ## Etter installasjon ferdig
 

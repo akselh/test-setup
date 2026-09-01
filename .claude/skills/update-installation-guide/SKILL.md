@@ -21,9 +21,9 @@ diff and commits.
 ## The files and their pins
 | File | What is pinned there |
 | --- | --- |
-| `installation-guide.md` | Node.js version and both installer links (`.msi` and `.pkg`). GitHub CLI version and both installer links. The «sist kontrollert» date at the bottom. |
+| `installation-guide.md` | Node.js version and both installer links (`.msi` and `.pkg`). The «sist kontrollert» date at the bottom. |
 | `git-install.md` | The Git for Windows version, in the text and in the example file name `Git-<versjon>-64-bit.exe`. Eight screenshots of the installer. |
-| `.claude/skills/pre-workshop-check/SKILL.md` | The GitHub CLI version and both zip links in «The gh install». The minimum VS Code version (today 1.131) and the download links in step 7. Keep the gh version here identical to the one in `installation-guide.md`. |
+| `.claude/skills/pre-workshop-check/SKILL.md` | The GitHub CLI version and both zip links in «The gh install» — the only place the gh version is pinned, because the check installs gh itself. The minimum VS Code version (today 1.131) and the download links in step 7. |
 | `check-installation.md`, `github-account.md` | Links only, no versions. |
 
 ## Rules
@@ -122,8 +122,9 @@ never rewrite:
   pages and compare the texts when you can; report what you could not reach:
   - `github-account.md`: the signup flow and the 2FA path
     «Settings → Password and authentication».
-  - `installation-guide.md` step 3: the questions `gh auth login` asks, in
-    order, with «Authenticate Git with your GitHub credentials?» among them.
+  - `check-installation.md`, section «Innlogging på GitHub»: the questions
+    `gh auth login` asks, in order, with «Authenticate Git with your GitHub
+    credentials?» among them.
   - The download pages: «User Installer» on the VS Code page, «Windows
     Installer» and «macOS Installer» on the Node.js page.
 
