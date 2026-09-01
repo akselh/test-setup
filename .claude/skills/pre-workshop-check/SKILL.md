@@ -283,7 +283,10 @@ the user can answer it.
 ### 4b.2 Test Git against GitHub
 The login of `gh` can be good while Git still asks for a password, because the
 user answered **No** to «Authenticate Git with your GitHub credentials?». Test
-Git itself, and never trust the configuration file alone:
+Git itself, and never trust the configuration file alone. This is the one
+test where bare `git` is deliberate: the workshop runs `git clone` and
+`git push`, and a `gh` command here would pass on the login of `gh` even when
+Git itself has no credentials. Never replace this command with `gh`:
 
 ```
 GIT_TERMINAL_PROMPT=0 git ls-remote https://github.com/<REPO>; echo "exit=$?"

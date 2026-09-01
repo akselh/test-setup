@@ -51,9 +51,10 @@ Kjør pre-workshop-check skillen.
 Claude gjør all sjekk. NB! Sjekken bruker en egen `dev`-mappe, ikke `Dokumenter`. Mappen
 `Dokumenter` ligger ofte i OneDrive eller iCloud, og det kan gi feil.
 
-**Feiler selve kloningen?** Da mangler du enten Git eller din tilgang til bedriftens GitHib. 
+**Feiler selve kloningen?** Da mangler du sannsynligvis Git, eller nettverket ditt stopper
+GitHub. Dette prosjektet er åpent, så kloningen trenger ingen tilgang til bedriftens organisasjon. 
 Be Claude i samme chat om å laste ned prosjektet fra samme GitHub-adresse som ZIP og pakke det ut i samme mappe i 
-stedet. Kjør så sjekken derfra — den vil da oppdage at Git mangler og hjelpe deg å installere.
+stedet. Kjør så sjekken derfra — den vil da oppdage hva som mangler og hjelpe deg å fikse det.
 
 ### Dette gjør du med resultatet av sjekken
 
