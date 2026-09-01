@@ -4,15 +4,14 @@ I workshopen henter du AI verktøy m.m. fra et repository (kode-prosjekt) i din 
 GitHub-organisasjon. Du trenger en GitHub-konto, og GitHub-admin i bedriften må legge
 deg til i organisasjonen.
 
-Denne guiden tar tid hos andre enn deg, så start med den. Når du er ferdig her, går du
-til [installation-guide.md](installation-guide.md).
+Denne guiden tar tid hos andre enn deg, så start med den.
 
 1. Har du allerede en GitHub-konto? Da hopper du til punkt 3.
 2. Lag en privat GitHub-konto på https://github.com/signup.
    - Du kan fritt velge brukernavn på GitHub. Disse er som regel ganske korte, fint med noe som har
      med eks. fornavnet ditt.
    - Legg også inn ditt fulle navn på kontoen.
-   - Du kan bruke privat e-postadresse.
+   - Du bør bruke privat e-postadresse. Dette for fortsatt tilgang til kontoen ved evt. skifte av arbeidsgiver.
 3. Slå på tofaktor (2FA). GitHub krever det av alle brukere.
    - Du finner valget under Settings, så Password and authentication
    - Du trenger en autentiseringsapp på telefonen, for eksempel Microsoft Authenticator
