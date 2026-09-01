@@ -32,14 +32,18 @@ Har du hoppet over noe av dette, går sjekken likevel: den finner det som mangle
    På **Windows**:
 
 ```
-Klon https://github.com/akselh/test-setup til C:\dev\workshop-setup-test, bytt så arbeidsmappe dit.
+Dersom mappen C:\dev\workshop-setup-test ikke finnes: Klon https://github.com/akselh/test-setup til C:\dev\workshop-setup-test, bytt så arbeidsmappe dit.
+Dersom mappen finnes, bytt til denne mappen som arbeidsmappe.
+
 Kjør pre-workshop-check skillen.
 ```
 
    På **Mac**:
 
 ```
-Klon https://github.com/akselh/test-setup til ~/dev/workshop-setup-test, bytt så arbeidsmappe dit.
+Dersom mappen ~/dev/workshop-setup-test ikke finnes: Klon https://github.com/akselh/test-setup til ~/dev/workshop-setup-test, bytt så arbeidsmappe dit.
+Dersom mappen finnes, bytt til denne mappen som arbeidsmappe.
+
 Kjør pre-workshop-check skillen.
 ```
 
