@@ -6,15 +6,17 @@ workshop, se lenger ned.
 
 ## Før du starter
 
-Du trenger fire ting før du starter:
+Du trenger dette før du starter:
 
 1. Du har gjort [github-account.md](github-account.md): du har en GitHub-konto
    med 2FA (2-faktor autentisering), og du har godtatt GitHub-invitasjonen fra din bedrift.
-2. Du har Claude (Desktop applikasjon, _ikke_ websiden claude.ai) med tilgang til Claude Code,
-   og du er logget inn i Claude.
-3. Du har installert VS Code, Git, Node.js og GitHub CLI, se
+2. Du har installert VS Code, Git, Node.js og GitHub CLI, se
    [installation-guide.md](installation-guide.md).
-4. Du har kjørt `gh auth login`, se [installation-guide.md](installation-guide.md).
+3. Du har kjørt `gh auth login`, se [installation-guide.md](installation-guide.md).
+
+Og så må du ha Claude (Desktop applikasjon, _ikke_ websiden claude.ai) med tilgang til Claude Code, og du er logget 
+inn i Claude med brukeren tildelt av din bedrift. Claude er ikkje med i denne installasjonsguiden da det er 
+forutsatt at du bruker Claude allerede.
 
 ## Slik gjør du det
 
