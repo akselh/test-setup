@@ -1,7 +1,7 @@
 ---
 name: pre-workshop-check
 description: >
-  Check that this machine are setup for the Agentic Edge workshop, and write one
+  Check that this machine is set up for the Agentic Edge workshop, and write one
   report the attendee sends to the workshop host. Use when the user says
   "kjør sjekken før workshopen", "sjekk maskinen", "er maskinen klar",
   "pre-workshop-check", "check my machine", or opens this project and asks
@@ -32,8 +32,9 @@ cat workshop-info.md
 ```
 
 Take the value behind **GitHub organisation** and the value behind **Workshop
-repository**. Both stand in backticks. This file names no organisation, and
-you must never write one into it.
+repository**. Both stand in backticks. This skill file (`SKILL.md`) names no
+organisation, and you must never write a customer name into it — the name
+lives in `workshop-info.md` only.
 
 `workshop-info.md` is absent: say so in one Norwegian sentence, skip step 4b,
 and write `IKKE TESTET - workshop-info.md mangler` in the three GitHub lines
@@ -43,12 +44,19 @@ Below, `<ORG>` means the organisation and `<REPO>` means the repository from
 that file. Put the real values in place of them.
 
 ## Rules for the whole run
-- Install no program. Never edit the user settings of VS Code.
+- Install no program yourself, and never download an installer. When a program
+  is missing, the **user** installs it, and you wait — see «The install
+  offer» below. Never edit the user settings of VS Code.
+- Repair every fault you can repair before you write the report. The report
+  describes the machine as it stands at the end of the run, not as it stood at
+  the start.
 - You can change three things on the machine, each one only after the user says
   yes: the PATH (step 3), the Git identity (step 4) and the Git credential
   helper (step 4b). Every other change is forbidden.
 - Never run `gh auth login`, and never run `gh auth logout`. The login is
-  interactive and belongs to the user. You read the state, and you report it.
+  interactive and belongs to the user. You read the state, you can ask the
+  user to log in in their own terminal and wait (step 4b.1), and you report
+  the state at the end.
 - Run every step, also after a failure. The report needs the full picture.
 - Keep the exact error text of a step that failed. Never guess a cause.
 - Write the report in Norwegian, and write it last.
@@ -65,6 +73,31 @@ So:
 - Never call `node`, `npm` or `git` through a full path to make a test pass.
 - Never give a full path to the `docx` skill or to the `pptx` skill.
 - A full path is a diagnosis tool in step 3 only. It never changes a verdict.
+
+## The install offer — when a program is not installed
+A program that is absent from the PATH **and** absent from the disk is not
+installed. Do not park that fault in the report and move on. The user sits at
+the machine now, and an install takes two minutes. So:
+
+1. Tell the user in Norwegian which program is missing. Give the download
+   link from the list in step 7, and name the right installer for the
+   operating system — `installation-guide.md` holds that detail.
+2. Ask whether the user wants to install it now. Wait for the answer.
+3. The user says no: write `MANGLER` in the report, with the link, and go on
+   to the next step.
+4. The user says the install is done: run the PATH lookup from step 2 again.
+   - The program answers: write the version in the report, with the note
+     `installert under sjekken`. Run the steps that you skipped because the
+     program was missing.
+   - The program is still absent from the PATH, but sits on the disk now: the
+     install worked, and this running program holds the old PATH. Tell the
+     user to close Claude Desktop completely, open it again, and run the
+     check once more. Write `INSTALLERT UNDER SJEKKEN - krever omstart av
+     Claude Desktop` in the report.
+
+The offer covers Node.js, Git, VS Code and GitHub CLI, in step 2 and in step
+3b. You never download an installer, and you never run one. That rule holds
+also when the user asks you to.
 
 ## Step 1 — say what you do
 Say in one Norwegian sentence that you start the check. Then run. Ask no
@@ -85,8 +118,8 @@ command -v gh && gh --version
 `npm` is absent.
 
 `gh` is GitHub CLI. It is absent from the PATH only when it is not installed,
-because both installers write to a folder on the PATH. Give the download link
-in the report, and go on to step 4b anyway.
+because both installers write to a folder on the PATH. Make the install offer
+(see above), and go on to step 4b anyway.
 
 `code` is a special case. The installer of VS Code adds it to the PATH only
 when the user ticked the box. A `code` that is absent from the PATH does not
@@ -100,6 +133,11 @@ The first line of the output is the version number. The workshop needs version
 1.131 or newer, because of the hybrid markdown editor. The file
 `.vscode/settings.json` in this folder turns that editor on for everybody, so
 no user has to change a setting.
+
+VS Code is absent from the PATH **and** absent from those disk places: make
+the install offer (see above). After the install, look at the disk places
+again — that lookup needs no restart, so the verdict can turn green in this
+run.
 
 ## Step 3 — repair the PATH
 Do this step for `node` and for `git` only. Skip it when both are on the PATH.
@@ -127,8 +165,8 @@ On a Mac, look in `/usr/local/bin`, `/opt/homebrew/bin` and
 
 ### 3b. Name the fault
 - The program is absent from the PATH **and** absent from the disk: the
-  program is not installed. Give the download link in the report. Go on to the
-  next step.
+  program is not installed. Make the install offer (see above). Then go on to
+  the next step.
 - The program is absent from the PATH **and** present on the disk: the PATH is
   the fault. Continue with 3c.
 
@@ -226,10 +264,21 @@ The command writes `Logged in to github.com account <navn>` after a good
 login. Take the account name for the report.
 
 The command fails with `You are not logged into any GitHub hosts` when the
-login is missing. That is a red verdict. Tell the user in Norwegian to run
-`gh auth login` in PowerShell or in Terminal, and to answer **Yes** to
-«Authenticate Git with your GitHub credentials?». Point at
-`installation-guide.md`. Then go on to the next step.
+login is missing. Do not go straight to the report — the user can repair this
+now, in the middle of the run. Tell the user in Norwegian to open PowerShell
+or Terminal **next to Claude**, run `gh auth login` there, and answer **Yes**
+to «Authenticate Git with your GitHub credentials?». Point at the steps in
+`installation-guide.md`. Ask the user to say when the login is done, and
+wait.
+
+The user says done: run `gh auth status` again, and continue with the result
+of the second attempt. Write `logget inn under sjekken` in the report.
+
+The user says no, or the login fails: that is a red verdict. Write it in the
+report, and go on to the next step.
+
+You never run `gh auth login` yourself — the login is interactive, and only
+the user can answer it.
 
 ### 4b.2 Test Git against GitHub
 The login of `gh` can be good while Git still asks for a password, because the
@@ -412,12 +461,14 @@ GitHub-bruker: <brukernavn GitHub>
 
 Installasjoner:
 Node.js:     <versjon>
-             (eller: MANGLER / PÅ DISK, MEN IKKE PÅ PATH)
+             (eller: MANGLER / PÅ DISK, MEN IKKE PÅ PATH
+              / INSTALLERT UNDER SJEKKEN - krever omstart av Claude Desktop)
 npm:         <versjon>   (eller: MANGLER)
 Git:         <versjon>
-             (eller: MANGLER / PÅ DISK, MEN IKKE PÅ PATH)
+             (eller: MANGLER / PÅ DISK, MEN IKKE PÅ PATH
+              / INSTALLERT UNDER SJEKKEN - krever omstart av Claude Desktop)
 VS Code:     <versjon>   (eller: MANGLER / FOR GAMMEL, krever 1.131)
-GitHub CLI:  <versjon>   (eller: MANGLER)
+GitHub CLI:  <versjon>   (eller: MANGLER / INSTALLERT UNDER SJEKKEN)
 
 Tester:
 GitHub-innlogging: OK - logget inn som <kontonavn>
@@ -449,6 +500,13 @@ Rules for the report:
   the GitHub login, the access to the organisation, the Word test and the
   PowerPoint test are all OK.
 - `PÅ DISK, MEN IKKE PÅ PATH` is red, not green.
+- A program that the user installed during the check counts green when the
+  PATH lookup answers, and red when the verdict waits for a restart of
+  Claude Desktop. A repair in this run makes the verdict green only when the
+  test behind it passed in this run.
+- A red verdict that only needs a restart is a small fault. Say in the report,
+  and to the user, that one restart of Claude Desktop and one new run of the
+  check is the whole repair.
 - Give the link for each program that is absent:
   - Node.js: https://nodejs.org/en/download
   - Git on Windows: https://git-scm.com/install/windows, and the guide

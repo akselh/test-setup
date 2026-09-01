@@ -6,14 +6,14 @@ viktige verktøy installert på din maskin. Du må i første omgang igjennom 3 h
 1. Lage GitHub-konto og knytte denne til bedriftens GitHub-organisasjon
 2. Installere noen programmer
 3. Sjekke at innlogging til GitHub-kontoen din fungerer fra lokal maskin
-   - **Merk**: Dette punktet kan du ikke gjøre før du er ferdig med alle punktene i første punkt [github-account.md](github-account.md)
+   - **Merk**: Dette steget kan du ikke gjøre før du er ferdig med alt i steg 1, se [github-account.md](github-account.md)
    
 ## 1: Lage GitHub-konto og tilknytte til din bedrifts GitHub-organisasjon
 Dersom du ikke har laget deg GitHub-konto, følg [github-account.md](github-account.md) først.
 Den guiden dekker kontoen, tofaktor og tilgangen til bedriftens GitHub-organisasjon. Start med
 den, for den tar tid hos andre enn deg.
 
-## 2: Installer verktøyer for workshopen
+## 2: Installer verktøy for workshopen
 
 Kolonnen «Alle» gjelder alle maskiner. Les så kolonnen for din maskin.
 
@@ -27,8 +27,12 @@ Kolonnen «Alle» gjelder alle maskiner. Les så kolonnen for din maskin.
 Windows kan spørre «Vil du tillate at denne appen gjør endringer?» under installasjonen.
 Klikk **Ja**. Får du ikke lov, ta kontakt med koordinator i din bedrift.
 
-Start maskinen på nytt etter at du har installert Git, Node.js og GitHub CLI. Først da
-ser Claude dem.
+Etter at du har installert Git, Node.js og GitHub CLI, må programmene som kjørte under
+installasjonen startes på nytt før de ser de nye verktøyene:
+
+- **Windows:** Start maskinen på nytt, eller logg ut og inn igjen. Først da ser Claude dem.
+- **macOS:** Avslutt Claude helt (Cmd+Q) og åpne det igjen. Du trenger ikke starte maskinen
+  på nytt.
 
 ## 3: Logg inn på GitHub
 
@@ -57,5 +61,9 @@ og at du har tilgang til organisasjonen.
 
 ## Etter installasjon ferdig
 
-Du må både ha Claude installert og vere innlogget med din bedriftsbruker (personlig bruker/abonnement kan ikke 
+Du må både ha Claude installert og være innlogget med din bedriftsbruker (personlig bruker/abonnement kan ikke 
 brukes) på Claude for å fullføre [sjekken etter installasjon](check-installation.md).
+
+---
+
+_Versjonene og lenkene i denne guiden ble sist kontrollert 2026-09-01._

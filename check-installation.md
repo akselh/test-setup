@@ -15,8 +15,11 @@ Du trenger dette før du starter:
 3. Du har kjørt `gh auth login`, se [installation-guide.md](installation-guide.md).
 
 Og så må du ha Claude (Desktop applikasjon, _ikke_ websiden claude.ai) med tilgang til Claude Code, og du er logget 
-inn i Claude med brukeren tildelt av din bedrift. Claude er ikkje med i denne installasjonsguiden da det er 
+inn i Claude med brukeren tildelt av din bedrift. Claude er ikke med i denne installasjonsguiden da det er 
 forutsatt at du bruker Claude allerede.
+
+Har du hoppet over noe av dette, går sjekken likevel: den finner det som mangler, hjelper deg
+å fikse det du kan fikse der og da, og skriver resten i rapporten.
 
 ## Slik gjør du det
 
@@ -40,11 +43,17 @@ Klon https://github.com/akselh/test-setup til ~/dev/workshop-setup-test, bytt s�
 Kjør pre-workshop-check skillen.
 ```
 
-3. Claude spør deg om navnet ditt. Svar på spørsmålet.
+3. Claude stiller deg noen spørsmål underveis, blant annet om navnet ditt. Mangler et program
+   helt, spør Claude om du vil installere det nå, og viser deg lenken. Svar på spørsmålene, så
+   blir mest mulig fikset før rapporten skrives.
 4. Send filen som blir laget til din workshop koordinator. Se instruksjoner under.
 
 Claude gjør all sjekk. NB! Sjekken bruker en egen `dev`-mappe, ikke `Dokumenter`. Mappen
 `Dokumenter` ligger ofte i OneDrive eller iCloud, og det kan gi feil.
+
+**Feiler selve kloningen?** Da mangler du enten Git eller din tilgang til bedriftens GitHib. 
+Be Claude i samme chat om å laste ned prosjektet fra samme GitHub-adresse som ZIP og pakke det ut i samme mappe i 
+stedet. Kjør så sjekken derfra — den vil da oppdage at Git mangler og hjelpe deg å installere.
 
 ### Dette gjør du med resultatet av sjekken
 
@@ -53,7 +62,8 @@ bedrift.
 
 ## Hva sjekken gjør på maskinen din
 
-Sjekken leser først om Node.js, Git, VS Code og GitHub CLI er installert. Mangler et av dem,
+Sjekken leser først om Node.js (med npm), Git, VS Code og GitHub CLI er installert. Mangler et
+av dem helt, spør sjekken om du vil installere det nå. Sier du nei, eller feiler installasjonen,
 skriver sjekken det i rapporten, med lenke.
 
 Deretter kontrollerer sjekken at du er logget inn på GitHub, og at du får lest et repository i
@@ -70,8 +80,10 @@ Sjekken skriver fire ting, alle i den nye mappen på disken din. Mappen heter
 
 Alle fire kan du slette etterpå. Ingen av dem ligger utenfor mappen.
 
-Sjekken installerer ingen programmer, og den logger deg ikke inn på GitHub. Innloggingen gjør
-du selv med `gh auth login`, se [installation-guide.md](installation-guide.md).
+Sjekken installerer ingen programmer selv, men mangler et program helt, spør den om du vil
+installere det nå — du klikker da selv gjennom installasjonen mens sjekken venter. Den logger
+deg heller ikke inn på GitHub. Mangler innloggingen, ber sjekken deg kjøre `gh auth login` i et
+eget terminalvindu, og fortsetter når du er ferdig. Se [installation-guide.md](installation-guide.md).
 
 Sjekken kan endre disse tingene, og den spør deg først hver gang:
 
