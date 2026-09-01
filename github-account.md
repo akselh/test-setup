@@ -12,10 +12,22 @@ Denne guiden tar tid hos andre enn deg, så start med den.
      med eks. fornavnet ditt.
    - Legg også inn ditt fulle navn på kontoen.
    - Du bør bruke privat e-postadresse. Dette for fortsatt tilgang til kontoen ved evt. skifte av arbeidsgiver.
-3. Slå på tofaktor (2FA). GitHub krever det av alle brukere.
-   - Du finner valget under Settings, så Password and authentication
-   - Du trenger en autentiseringsapp på telefonen, for eksempel Microsoft Authenticator
-   - Ta vare på gjenopprettingskodene GitHub gir deg. Uten dem mister du kontoen
+3. Slå på tofaktor (2FA). GitHub krever det av alle brukere, men spør deg ikke om det
+   selv — du må gå dit på egen hånd:
+   - Gå rett til https://github.com/settings/security. (Samme sted via menyen: klikk
+     profilbildet ditt øverst til høyre, velg **Settings**, så **Password and
+     authentication** i venstremenyen.)
+   - Klikk **Enable two-factor authentication**. GitHub viser en QR-kode.
+   - Skann QR-koden med en autentiseringsapp på telefonen, for eksempel Microsoft
+     Authenticator.
+   - **Bruker du en passordbehandler**, for eksempel 1Password? Da kan den sprette opp
+     med «Save one-time password?» når QR-koden vises. Det er helt i orden — klikk
+     **Save** der, så er passordbehandleren autentiseringsappen din, og du trenger
+     ingen app på telefonen.
+   - Skriv den sekssifrede koden fra appen (eller passordbehandleren) i feltet «Verify
+     the code from the app», og klikk **Save**. Først da er tofaktor på.
+   - Ta vare på gjenopprettingskodene GitHub gir deg til slutt. Uten dem kan du miste
+     kontoen.
 4. Send GitHub-brukernavnet ditt til GitHub-administrator i din bedrift.
 5. Administrator inviterer deg til bedriftens GitHub-konto (organisasjonen). Du får en e-post fra GitHub.
    Åpne e-posten og klikk **Join** for å godta invitasjonen.
