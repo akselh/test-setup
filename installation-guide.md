@@ -25,44 +25,9 @@ Kolonnen «Alle» gjelder alle maskiner. Les så kolonnen for din maskin.
 | **GitHub CLI** | Logger deg inn på GitHub én gang. Etterpå virker `git clone` og `git push` uten passord, uten tilgangsnøkkel og uten SSH-nøkkel. Last ned fra [cli.github.com](https://cli.github.com/) | Bruk [denne linken](https://github.com/cli/cli/releases/download/v2.98.0/gh_2.98.0_windows_amd64.msi) | Bruk [denne linken](https://github.com/cli/cli/releases/download/v2.98.0/gh_2.98.0_macOS_universal.pkg). Filen virker på både Apple Silicon (M1 til M4) og Intel. Installasjonen ber om administrator-passordet ditt — har du ikke det, se «GitHub CLI uten administratorrettigheter» under |
 
 Windows kan spørre «Vil du tillate at denne appen gjør endringer?» under installasjonen.
-Klikk **Ja**. Får du ikke lov, ta kontakt med koordinator i din bedrift — eller bruk
-fremgangsmåten under for GitHub CLI.
+Klikk **Ja**. Får du ikke lov, ta kontakt med koordinator i din bedrift.
 
-### GitHub CLI uten administratorrettigheter
-
-GitHub CLI er ett enkelt program, så det kan legges i hjemmemappen din uten administrator.
-Enklest: hopp over dette og la [sjekken før workshopen](check-installation.md) gjøre det for
-deg — den oppdager at GitHub CLI mangler og tilbyr å installere det slik. Vil du heller gjøre
-det selv, følger du fremgangsmåten under.
-
-**macOS:** Åpne `Terminal`, lim inn hele blokken under, og trykk Enter. Det er viktig at du
-laster ned via Terminal (ikke nettleseren), ellers kan macOS blokkere programmet.
-
-```bash
-ARK=$(uname -m | sed 's/x86_64/amd64/')
-curl -sL "https://github.com/cli/cli/releases/download/v2.98.0/gh_2.98.0_macOS_${ARK}.zip" -o /tmp/gh.zip
-unzip -oq /tmp/gh.zip -d /tmp
-mkdir -p ~/.local/bin
-cp "/tmp/gh_2.98.0_macOS_${ARK}/bin/gh" ~/.local/bin/
-grep -q '.local/bin' ~/.zprofile 2>/dev/null || echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.zprofile
-~/.local/bin/gh --version
-```
-
-Siste linje skal skrive versjonsnummeret. Avslutt så Claude helt (Cmd+Q) og åpne det igjen.
-
-**Windows:** Last ned [zip-filen](https://github.com/cli/cli/releases/download/v2.98.0/gh_2.98.0_windows_amd64.zip)
-i stedet for MSI-filen. Åpne `PowerShell`, lim inn blokken under, og trykk Enter:
-
-```powershell
-Expand-Archive "$env:USERPROFILE\Downloads\gh_2.98.0_windows_amd64.zip" -DestinationPath "$env:LOCALAPPDATA\Programs\gh" -Force
-$p=[Environment]::GetEnvironmentVariable("Path","User"); $b="$env:LOCALAPPDATA\Programs\gh\bin"
-if ($p -notlike "*$b*") { [Environment]::SetEnvironmentVariable("Path", ($p.TrimEnd(";") + ";" + $b), "User") }
-& "$env:LOCALAPPDATA\Programs\gh\bin\gh.exe" --version
-```
-
-Siste linje skal skrive versjonsnummeret. Logg så ut og inn av Windows.
-
-Etter at du har installert Git, Node.js og GitHub CLI, må programmene som kjørte under
+Etter at du har installert Git og Node.js, må programmene som kjørte under
 installasjonen startes på nytt før de ser de nye verktøyene:
 
 - **Windows:** Start maskinen på nytt, eller logg ut og inn igjen. Først da ser Claude dem.
