@@ -1,6 +1,6 @@
 # GitHub-konto og tilgang til bedriftens GitHub-organisasjon
 
-I workshopen henter du AI verktøy m.m. fra et prosjekt/repository i din bedrifts
+I workshopen henter du AI verktøy m.m. fra et repository (kode-prosjekt) i din bedrifts
 GitHub-organisasjon. Du trenger en GitHub-konto, og GitHub-admin i bedriften må legge
 deg til i organisasjonen.
 

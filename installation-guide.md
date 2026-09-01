@@ -2,16 +2,18 @@
 
 For at du skal kunne delta på og få fullt utbytte av planlagte workshoper med Agentic Edge kreves det at du har noen 
 viktige verktøy installert på din maskin. Du må i første omgang igjennom 3 hovedsteg:
+
 1. Lage GitHub-konto og knytte denne til bedriftens GitHub-organisasjon
 2. Installere noen programmer
 3. Sjekke at innlogging til GitHub-kontoen din fungerer fra lokal maskin
-
-## Lage GitHub-konto og tilknytte til din bedrifts GitHub-organisasjon
+   - **Merk**: Dette punktet kan du ikke gjøre før du er ferdig med alle punktene i første punkt [github-account.md](github-account.md)
+   
+## 1: Lage GitHub-konto og tilknytte til din bedrifts GitHub-organisasjon
 Dersom du ikke har laget deg GitHub-konto, følg [github-account.md](github-account.md) først.
 Den guiden dekker kontoen, tofaktor og tilgangen til bedriftens GitHub-organisasjon. Start med
 den, for den tar tid hos andre enn deg.
 
-## Installer verktøyer for workshopen
+## 2: Installer verktøyer for workshopen
 
 Kolonnen «Alle» gjelder alle maskiner. Les så kolonnen for din maskin.
 
@@ -28,7 +30,7 @@ Klikk **Ja**. Får du ikke lov, ta kontakt med koordinator i din bedrift.
 Start maskinen på nytt etter at du har installert Git, Node.js og GitHub CLI. Først da
 ser Claude dem.
 
-## Logg inn på GitHub
+## 3: Logg inn på GitHub
 
 Dette steget kan først gjøres etter du har mottatt e-post og godtatt GitHub-invitasjonen fra
 [github-account.md](github-account.md). I tillegg må GitHub CLI beskrevet over være installert.
