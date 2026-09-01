@@ -398,28 +398,34 @@ one action. Use this form exactly:
 
 ```
 === RAPPORT TIL WORKSHOP-KOORDINATOR ===
-Navn:        <navn, eller "ikke oppgitt">
-Maskin:      <maskinnavn og operativsystem>
-Dato:        <dato>
+Navn:           <navn, eller "ikke oppgitt">
+Operativsystem: <operativsystem>
+Dato:           <dato>
 
 RESULTAT:    MASKINEN ER KLAR FOR WORKSHOP
              (eller: MASKINEN MANGLER: <kort liste>)
 
+Git-identitet: SATT av <navn> <e-post>
+             (eller: SATT AV SJEKKEN / IKKE SATT)
+GitHub-bruker: <brukernavn GitHub> 
+             (eller: IKKE FUNNET)
+
+Installasjoner:
 Node.js:     <versjon>
              (eller: MANGLER / PÅ DISK, MEN IKKE PÅ PATH)
 npm:         <versjon>   (eller: MANGLER)
 Git:         <versjon>
              (eller: MANGLER / PÅ DISK, MEN IKKE PÅ PATH)
-Git-identitet: SATT av <navn> <e-post>
-             (eller: SATT AV SJEKKEN / IKKE SATT)
 VS Code:     <versjon>   (eller: MANGLER / FOR GAMMEL, krever 1.131)
 GitHub CLI:  <versjon>   (eller: MANGLER)
+
+Tester:
 GitHub-innlogging: OK - logget inn som <kontonavn>
              (eller: IKKE LOGGET INN / MANGLER)
-Git mot GitHub: OK - git ls-remote leste repoet
-             (eller: IKKE SATT OPP / SATT OPP AV SJEKKEN / IKKE TESTET)
 Org-tilgang: OK - leste <REPO>
              (eller: INGEN TILGANG / IKKE TESTET)
+Git mot GitHub: OK - git ls-remote leste repoet
+             (eller: IKKE SATT OPP / SATT OPP AV SJEKKEN / IKKE TESTET)
 Word-test:   OK - word-example.docx, <n> byte
              (eller: FEILET - <den eksakte feilmeldingen>)
 PowerPoint:  OK - powerpoint-example.pptx, <n> byte
