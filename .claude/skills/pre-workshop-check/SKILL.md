@@ -168,6 +168,11 @@ after «The gh install», and in step 4b.1. You can open that terminal window
 yourself. Offer it in the same Norwegian sentence that asks for the login,
 and wait for the answer.
 
+With the offer, show the user what to answer in the terminal: read the
+section «Innlogging på GitHub» in `check-installation.md` and repeat its
+answers in the chat. That section is the source of the answers — relay it,
+and never write a list of your own.
+
 After a yes, on a Mac:
 
 ```
