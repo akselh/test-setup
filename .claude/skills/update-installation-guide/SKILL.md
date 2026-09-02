@@ -120,8 +120,7 @@ never rewrite:
   version often adds one.
 - These documents describe pages and dialogs by their exact texts. Fetch the
   pages and compare the texts when you can; report what you could not reach:
-  - `github-account.md`: the signup flow and the 2FA path
-    «Settings → Password and authentication».
+  - `github-account.md`: the signup flow.
   - `.claude/skills/pre-workshop-check/SKILL.md`, section «Open a terminal
     for the user», holds the Norwegian text the check relays at login. It
     describes the one question that `gh auth login --hostname github.com --git-protocol https

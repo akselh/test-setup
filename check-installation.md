@@ -8,8 +8,8 @@ workshop, se lenger ned.
 
 Du trenger dette før du starter:
 
-1. Du har gjort [github-account.md](github-account.md): du har en GitHub-konto
-   med 2FA (2-faktor autentisering), og du har godtatt GitHub-invitasjonen fra din bedrift.
+1. Du har gjort [github-account.md](github-account.md): du har en GitHub-konto, og du har
+   godtatt GitHub-invitasjonen fra din bedrift.
 2. Du har installert VS Code, Git, Node.js og GitHub CLI, se
    [installation-guide.md](installation-guide.md).
 3. Innlogging til GitHub (`gh auth login`) trenger du ikke gjøre på forhånd — sjekken åpner et

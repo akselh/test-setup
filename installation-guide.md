@@ -10,7 +10,7 @@ viktige verktøy installert på din maskin. Du må i første omgang igjennom 3 h
    
 ## 1: Lage GitHub-konto og tilknytte til din bedrifts GitHub-organisasjon
 Dersom du ikke har laget deg GitHub-konto, følg [github-account.md](github-account.md) først.
-Den guiden dekker kontoen, tofaktor og tilgangen til bedriftens GitHub-organisasjon. Start med
+Den guiden dekker kontoen og tilgangen til bedriftens GitHub-organisasjon. Start med
 den, for den tar tid hos andre enn deg.
 
 ## 2: Installer verktøy for workshopen
