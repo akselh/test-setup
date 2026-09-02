@@ -1,8 +1,9 @@
 # Installer Git for Windows
 
 Denne siden viser deg hvert valg i Git-installasjonen, steg for steg. Du trenger
-den bare på Windows. På Mac stiller installasjonsprogrammet ingen av disse
-spørsmålene.
+den bare på Windows, og bare når Claude ikke fikk installert Git for deg i
+[installation-guide.md](installation-guide.md). På Mac stiller
+installasjonsprogrammet ingen av disse spørsmålene.
 
 Last ned Git herfra: https://git-scm.com/download/win. Denne siden bruker Git
 versjon 2.55.0.5. Start installasjonsprogrammet etter nedlastingen.
@@ -46,6 +47,10 @@ filen du lastet ned.
 Kommandoen viser ingenting mens den kjører. Vent til ledeteksten kommer tilbake.
 Sperrer firmaet ditt skript i PowerShell, feiler kommandoen. Da bruker du de åtte
 skjermbildene lenger nede.
+
+Uten administratorrettigheter legger installasjonsprogrammet Git i din egen
+brukermappe, `%LOCALAPPDATA%\Programs\Git`. Det er helt i orden — se «Etter
+installasjonen» nederst for én kommando du da må kjøre i tillegg.
 
 ## Installer med skjermbildene
 
@@ -162,9 +167,19 @@ valgene.
 
 ## Etter installasjonen
 
+Installerte du uten administratorrettigheter, ligger Git i din egen
+brukermappe, og Claude Code må få vite hvor Git Bash ligger. Lim inn denne
+kommandoen i PowerShell og trykk Enter:
+
+```
+[Environment]::SetEnvironmentVariable("CLAUDE_CODE_GIT_BASH_PATH", "$env:LOCALAPPDATA\Programs\Git\bin\bash.exe", "User")
+```
+
+Logg så ut og inn igjen på Windows, eller start maskinen på nytt. Først da
+ser Claude Git.
+
 Git trenger et navn og en e-postadresse før Git kan lagre en endring.
-Sjekken før workshopen setter dette opp for deg, og spør deg om navn og
-e-post.
+Sjekken før workshopen setter dette opp for deg, fra Claude-brukeren din.
 
 Vil du sette opp navn og e-post selv, bruker du disse to kommandoene:
 

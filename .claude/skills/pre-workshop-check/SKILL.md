@@ -464,6 +464,7 @@ ls "$LOCALAPPDATA/Programs/nodejs/node.exe"
 Git on Windows:
 
 ```
+ls "$LOCALAPPDATA/Programs/Git/cmd/git.exe"
 ls "/c/Program Files/Git/cmd/git.exe"
 ls "/c/Program Files/Git/bin/git.exe"
 ```
@@ -955,8 +956,9 @@ Rules for the report:
 - Give the link for each program that is absent:
   - Node.js: the check installs it — write that a new run of the check
     installs it, or point at https://nodejs.org/en/download if automated install fails
-  - Git on Windows: https://git-scm.com/install/windows, and the guide
-    `git-install.md` in this folder
+  - Git on Windows: the step «Installer Git» in `installation-guide.md`,
+    where Claude installs it from a paste-in prompt, and `git-install.md`
+    as the manual fallback
   - Git on a Mac: the command `git --version` in Terminal starts the install
   - VS Code: the check installs it — write that a new run of the check
     installs it, or point at https://code.visualstudio.com/download if

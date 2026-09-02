@@ -21,8 +21,8 @@ diff and commits.
 ## The files and their pins
 | File | What is pinned there |
 | --- | --- |
-| `installation-guide.md` | The «sist kontrollert» date at the bottom. No version pin lives here any more. |
-| `git-install.md` | The Git for Windows version, in the text and in the example file name `Git-<versjon>-64-bit.exe`. Eight screenshots of the installer. |
+| `installation-guide.md` | The Git for Windows version, inside the paste-in prompt of step 2: the release tag `v<versjon>.windows.<n>` in the download link and the file name `Git-<versjon>-64-bit.exe`. The «sist kontrollert» date at the bottom. |
+| `git-install.md` | The Git for Windows version, in the text and in the example file name `Git-<versjon>-64-bit.exe`. Move it together with the pin in `installation-guide.md` — the two must name the same version. Eight screenshots of the installer. |
 | `.claude/skills/pre-workshop-check/SKILL.md` | The GitHub CLI version and both zip links in «The gh install» — the only place the gh version is pinned, because the check installs gh itself. The Node.js version in «The Node.js install», because the check installs Node.js itself too: the Windows zip link, the Mac tarball link, and the folder name `node-v<version>-win-x64` inside the Windows command. This is the only place the Node.js version is pinned. The minimum VS Code version (today 1.131) and the download links in step 7. |
 | `check-installation.md`, `github-account.md` | Links only, no versions. |
 
