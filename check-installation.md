@@ -90,9 +90,11 @@ Alle fire kan du eventuelt slette etterpå. I tillegg legger sjekken bedriftens 
 egen mappe ved siden av, i `dev`-mappen. **Den mappen beholder du** — det er den du bruker i
 workshopen.
 
-Sjekken installerer ingen programmer selv, med ett unntak: mangler GitHub CLI, kan sjekken
-legge det i hjemmemappen din for deg — det trenger ikke administratorrettigheter, og sjekken
-spør deg først. Mangler et av de andre programmene, spør den om du vil installere det nå — du
+Sjekken installerer ingen programmer selv, med to unntak: mangler GitHub CLI eller Node.js,
+legger sjekken dem i hjemmemappen din — det trenger ikke administratorrettigheter, og
+sjekken sier fra når den gjør det. Node.js som sjekken installerer, ser Claude først etter en omstart:
+avslutt Claude Desktop helt, åpne det igjen, og kjør sjekken én gang til. Da lager den Word-
+og PowerPoint-filene. Mangler Git eller VS Code, spør den om du vil installere det nå — du
 klikker da selv gjennom installasjonen mens sjekken venter. Den logger
 deg heller ikke inn på GitHub. Mangler innloggingen, åpner sjekken et terminalvindu med
 innloggingen klar, forklarer hva du skal gjøre, og venter til du er ferdig. Uten innlogging
@@ -101,12 +103,13 @@ stopper sjekken, og du kjører den på nytt når innloggingen er i orden.
 Sjekken kan endre disse tingene, og den spør deg først:
 
 - PATH-en din, hvis Node.js eller Git ligger på disken, men Claude ikke finner dem.
-- GitHub CLI kan den installere i hjemmemappen din, hvis det mangler helt.
 - Innstillingen for sertifikater i npm, hvis firmaets brannmur stopper nedlastingen.
   Sjekken kopierer da sertifikatene fra Windows til filen `windows-root-ca.pem` i
   hjemmemappen din.
 
-To ting setter sjekken uten å spørre, og sier fra om etterpå:
+Dette gjør sjekken uten å spørre, og sier fra om etterpå:
+
+- GitHub CLI og Node.js legger den i hjemmemappen din, hvis de mangler helt.
 
 - Navnet og e-postadressen din i Git, hvis du ikke har satt dem fra før. Sjekken bruker
   navnet og jobbadressen fra Claude-brukeren din, som bedriften har gitt deg.

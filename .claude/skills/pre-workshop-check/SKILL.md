@@ -48,9 +48,10 @@ that file. Put the real values in place of them.
 ## Rules for the whole run
 - Install no program yourself, and never download an installer. When a program
   is missing, the **user** installs it, and you wait — see «The install
-  offer» below. One exception exists: GitHub CLI, which you can install into
-  the home folder after a yes — see «The gh install». Never edit the user
-  settings of VS Code.
+  offer» below. Two exceptions exist: GitHub CLI and Node.js, which you
+  install into the home folder yourself, without a question — see «The gh
+  install» and «The Node.js install». Never edit the user settings of VS
+  Code.
 - Repair every fault you can repair before you write the report. The report
   describes the machine as it stands at the end of the run, not as it stood at
   the start.
@@ -65,7 +66,9 @@ that file. Put the real values in place of them.
 - Ask as few questions as you can. The user started the check to get the
   machine ready, so a choice the check can make itself is not a question.
   Never ask whether the user wants to log in, and never ask for the Git
-  identity. The questions that remain: the install offers, the PATH repair,
+  identity, and never ask before you install GitHub CLI or Node.js into the
+  home folder. The questions that remain: the install offers for Git and
+  VS Code, the PATH repair,
   the proxy certificate, and — as a last resort — the name and email of the user for the git config.
 - Run every step, also after a failure, with one exception: a missing GitHub
   login stops the run — see step 4. The report needs the full picture.
@@ -86,7 +89,9 @@ So:
 - A full path is a diagnosis tool in step 3 only. It never changes a verdict.
 
 One exception exists, for `gh` alone, after the check itself installed it —
-«The gh install» below names it and the reasons.
+«The gh install» below names it and the reasons. No such exception exists
+for `node` and `npm`, also after the check itself installed Node.js — «The
+Node.js install» below says what happens then.
 
 ## The install offer — when a program is not installed
 A program that is absent from the PATH **and** absent from the disk is not
@@ -109,24 +114,23 @@ the machine now, and an install takes two minutes. So:
      check once more. Write `INSTALLERT UNDER SJEKKEN - krever omstart av
      Claude Desktop` in the report.
 
-The offer covers Node.js, Git and VS Code, in step 2 and in step 3b. Those
-three need a real installer, and only the user runs installers. GitHub CLI
-has its own way — see the next section. For the three above you never
+The offer covers Git and VS Code, in step 2 and in step 3b. Those two need a
+real installer, and only the user runs installers. GitHub CLI and Node.js
+have their own way — see the next two sections. For the two above you never
 download an installer, and you never run one. That rule holds also when the
 user asks you to.
 
-## The gh install — the one program you install yourself
+## The gh install — the first program you install yourself
 GitHub CLI is different from the other programs: it is one self-contained
 binary, the official release ships it as a plain zip, and it can live in the
 home folder without administrator rights. So when `gh` is missing, you do
-not send the user to an installer — you offer to do it, and after a yes you
-do it.
+not send the user to an installer, and you do not ask — you say in one
+Norwegian sentence that GitHub CLI is missing and that the check installs
+it into the home folder now, and then you do it. The user started the check
+to get the machine ready; this is part of that. The user objects in the
+chat: stop, write `MANGLER` in the report, with the link, and go on.
 
-Ask the user in one Norwegian sentence for permission to install GitHub CLI
-into the home folder. Wait for the answer. After a no: write `MANGLER` in
-the report, with the link, and go on.
-
-After a yes, on a Mac:
+On a Mac:
 
 ```
 ARK=$(uname -m | sed 's/x86_64/amd64/')
@@ -168,6 +172,70 @@ The login stays with the user. Open the terminal window for the user — see
 themselves instead, the window must be **new** — opened after the install,
 so it has the new PATH — and when that terminal does not know `gh`, give
 the user the full path to run.
+
+## The Node.js install — the second program you install yourself
+Node.js gets the same treatment as GitHub CLI. The official release ships
+it as a plain zip on Windows and as a tarball on a Mac, it needs no
+administrator rights, and it can live in the home folder. `npm` and `npx`
+come inside the same archive. So when `node` is absent from the PATH and
+absent from the disk (step 3b), you do not send the user to an installer,
+and you do not ask — you say in one Norwegian sentence that Node.js is
+missing and that the check installs it into the home folder now, and then
+you do it. The user objects in the chat: stop, write `MANGLER` in the
+report, with the link, and go on.
+
+On a Mac:
+
+```
+ARK=$(uname -m)
+curl -sL "https://nodejs.org/dist/v24.20.0/node-v24.20.0-darwin-${ARK}.tar.gz" -o /tmp/node.tar.gz
+mkdir -p ~/.local/node
+tar -xzf /tmp/node.tar.gz -C ~/.local/node --strip-components=1
+grep -q '.local/node/bin' ~/.zprofile 2>/dev/null || echo 'export PATH="$HOME/.local/node/bin:$PATH"' >> ~/.zprofile
+~/.local/node/bin/node --version
+~/.local/node/bin/node ~/.local/node/bin/npm --version
+```
+
+`uname -m` answers `arm64` on Apple Silicon and `x86_64` on Intel, and
+nodejs.org names its files the same way. The last line runs `npm` through
+`node` on purpose: the first line of `npm` asks for a `node` on the PATH,
+and this process has none yet.
+
+On Windows (the quoting rule from step 3c holds here too):
+
+```
+powershell -NoProfile -Command 'curl.exe -sL "https://nodejs.org/dist/v24.20.0/node-v24.20.0-win-x64.zip" -o "$env:TEMP\node.zip"; Expand-Archive "$env:TEMP\node.zip" -DestinationPath "$env:TEMP\node-unpack" -Force; New-Item -ItemType Directory -Force "$env:LOCALAPPDATA\Programs\nodejs" | Out-Null; Copy-Item "$env:TEMP\node-unpack\node-v24.20.0-win-x64\*" -Destination "$env:LOCALAPPDATA\Programs\nodejs" -Recurse -Force; Remove-Item "$env:TEMP\node-unpack" -Recurse -Force; $p=[Environment]::GetEnvironmentVariable("Path","User"); $b="$env:LOCALAPPDATA\Programs\nodejs"; if ($p -notlike "*$b*") { [Environment]::SetEnvironmentVariable("Path", ($p.TrimEnd(";") + ";" + $b), "User") }; & "$env:LOCALAPPDATA\Programs\nodejs\node.exe" --version; & "$env:LOCALAPPDATA\Programs\nodejs\npm.cmd" --version'
+```
+
+The two last lines print the versions: the install worked. Write
+`INSTALLERT UNDER SJEKKEN - krever omstart av Claude Desktop` on the
+Node.js line and on the npm line of the report, with the versions. Download
+from the addresses above and from nowhere else — they are the official
+releases of Node.js.
+
+Keep the whole folder. On a Mac `npm` and `npx` are symlinks into
+`lib/node_modules`, so a copy of single files, as the gh install does, gives
+an `npm` that does not run. The PATH entry names the `bin` folder inside
+`~/.local/node` on a Mac, and the folder itself on Windows, where
+`node.exe`, `npm.cmd` and `npx.cmd` sit at its top level.
+
+Here Node.js differs from `gh`, and the difference decides the rest of the
+run. The install put the folder on the PATH of every **new** terminal and
+of the next start of Claude Desktop. This running process misses it — and
+unlike `gh`, nothing in this run may reach the new `node` or `npm` through
+a full path. The masking trap holds without exception: the `docx` skill of
+step 5 and the `pptx` skill of step 6 need `npm` on the PATH of this
+process, and a full path would make a test pass that the workshop fails.
+So after a Node.js install in this run:
+
+- Skip step 5 and step 6. Write `IKKE TESTET - krever omstart av Claude
+  Desktop` on the Word line and on the PowerPoint line of the report.
+- Run every other step as normal. The login, the identity, the access test
+  and the clone need no Node.js.
+- Tell the user in one Norwegian sentence that Node.js is in place, and
+  that one restart of Claude Desktop — close it completely, open it again —
+  and one new run of the check finishes the job. The report says the same:
+  this is a small fault, see the rules in step 7.
 
 ## Open a terminal for the user
 Two moments send the user to their own terminal for the GitHub login: right
@@ -294,6 +362,19 @@ close Claude completely and open it again, on Windows log out and in. The
 file is absent there too: offer to install it — see «The gh install» above.
 Go on in every case — step 4 decides what a missing `gh` means.
 
+`node` works the same way. The check installs Node.js into the home folder
+when it is missing — see «The Node.js install» — and an earlier run can
+have done the same. So when `node` is absent from the PATH, look at these
+two places first:
+
+- Mac: `~/.local/node/bin/node`
+- Windows: `$LOCALAPPDATA/Programs/nodejs/node.exe`
+
+The file sits there: the PATH is the fault. Write `PÅ DISK, MEN IKKE PÅ PATH`
+in the report, and tell the user to restart as above. The file is absent
+there too: step 3 looks at the other disk places, and offers the install
+when none of them has it.
+
 `code` is a special case. The installer of VS Code adds it to the PATH only
 when the user ticked the box. A `code` that is absent from the PATH does not
 break the workshop. Look for the program file, and report the version:
@@ -334,12 +415,14 @@ ls "/c/Program Files/Git/bin/git.exe"
 ```
 
 On a Mac, look in `/usr/local/bin`, `/opt/homebrew/bin` and
-`/usr/local/opt/node/bin`.
+`/usr/local/opt/node/bin`. For Node.js, look in `~/.local/node/bin` as
+well — that is where the check itself installs it.
 
 ### 3b. Name the fault
 - The program is absent from the PATH **and** absent from the disk: the
-  program is not installed. Make the install offer (see above). Then go on to
-  the next step.
+  program is not installed. For Git, make the install offer (see above).
+  For Node.js, offer to install it yourself — see «The Node.js install».
+  Then go on to the next step.
 - The program is absent from the PATH **and** present on the disk: the PATH is
   the fault. Continue with 3c.
 
@@ -388,7 +471,9 @@ Claude Desktop.
 
 A PATH fault is rare on a Mac, because the two installers use folders that are
 on the PATH already. The `.pkg` of Node.js writes to `/usr/local/bin`, and Git
-sits in `/usr/bin`.
+sits in `/usr/bin`. A `node` in `~/.local/node/bin` comes from the check
+itself, and its line in `.zprofile` is in place already — there the restart
+from step 2 is the whole repair.
 
 Git on a Mac has one fault of its own. `/usr/bin/git` is present on every Mac,
 but it is only a stub. The real program arrives with the Command Line Tools of
@@ -639,6 +724,11 @@ the skill list as `docx`, or as `anthropic-skills:docx`. Start it with the
 `Skill` tool. Do not copy that skill, and do not write the Word file with your
 own code.
 
+Skip this step, and step 6, when `node` or `npm` is absent from the PATH.
+Write `IKKE TESTET - krever omstart av Claude Desktop` on both lines when
+the check installed Node.js in this run — see «The Node.js install» — and
+`IKKE TESTET` otherwise.
+
 Give the skill this task:
 
 - source: `word-example.md` in this folder
@@ -753,7 +843,9 @@ Installasjoner:
 Node.js:     <versjon>
              (eller: MANGLER / PÅ DISK, MEN IKKE PÅ PATH
               / INSTALLERT UNDER SJEKKEN - krever omstart av Claude Desktop)
-npm:         <versjon>   (eller: MANGLER)
+npm:         <versjon>
+             (eller: MANGLER
+              / INSTALLERT UNDER SJEKKEN - krever omstart av Claude Desktop)
 Git:         <versjon>
              (eller: MANGLER / PÅ DISK, MEN IKKE PÅ PATH
               / INSTALLERT UNDER SJEKKEN - krever omstart av Claude Desktop)
@@ -773,9 +865,11 @@ Git mot GitHub: OK - git ls-remote leste repoet
 Workshop-repo klone-test:  OK - klonet <REPO> til <full sti>, git pull virker
              (eller: ALLEREDE KLONET / FEILET - <feilmeldingen> / IKKE TESTET)
 Word-test:   OK - word-example.docx, <n> byte
-             (eller: FEILET - <den eksakte feilmeldingen>)
+             (eller: FEILET - <den eksakte feilmeldingen>
+              / IKKE TESTET - krever omstart av Claude Desktop)
 PowerPoint:  OK - powerpoint-example.pptx, <n> byte
-             (eller: FEILET - <den eksakte feilmeldingen>)
+             (eller: FEILET - <den eksakte feilmeldingen>
+              / IKKE TESTET - krever omstart av Claude Desktop)
 
 PATH-reparasjon: <hva sjekken la til, eller "ikke nødvendig">
 Proxy-sertifikat: <"ikke nødvendig", eller "reparert, npm cafile satt">
@@ -804,13 +898,14 @@ Rules for the report:
   and to the user, that one restart of Claude Desktop and one new run of the
   check is the whole repair.
 - Give the link for each program that is absent:
-  - Node.js: https://nodejs.org/en/download
+  - Node.js: the check installs it — write that a new run of the check
+    installs it, or point at https://nodejs.org/en/download if automated install fails
   - Git on Windows: https://git-scm.com/install/windows, and the guide
     `git-install.md` in this folder
   - Git on a Mac: the command `git --version` in Terminal starts the install
   - VS Code: https://code.visualstudio.com/download
   - GitHub CLI: the check installs it — write that a new run of the check
-    installs it after a yes, or point at https://cli.github.com/
+    installs it, or point at https://cli.github.com/  if automated install fails
   - The GitHub login: the command
     `gh auth login --hostname github.com --git-protocol https --web --clipboard`, and
     say that a new run of the check opens the terminal for it, with the

@@ -21,9 +21,9 @@ diff and commits.
 ## The files and their pins
 | File | What is pinned there |
 | --- | --- |
-| `installation-guide.md` | Node.js version and both installer links (`.msi` and `.pkg`). The «sist kontrollert» date at the bottom. |
+| `installation-guide.md` | The «sist kontrollert» date at the bottom. No version pin lives here any more. |
 | `git-install.md` | The Git for Windows version, in the text and in the example file name `Git-<versjon>-64-bit.exe`. Eight screenshots of the installer. |
-| `.claude/skills/pre-workshop-check/SKILL.md` | The GitHub CLI version and both zip links in «The gh install» — the only place the gh version is pinned, because the check installs gh itself. The minimum VS Code version (today 1.131) and the download links in step 7. |
+| `.claude/skills/pre-workshop-check/SKILL.md` | The GitHub CLI version and both zip links in «The gh install» — the only place the gh version is pinned, because the check installs gh itself. The Node.js version in «The Node.js install», because the check installs Node.js itself too: the Windows zip link, the Mac tarball link, and the folder name `node-v<version>-win-x64` inside the Windows command. This is the only place the Node.js version is pinned. The minimum VS Code version (today 1.131) and the download links in step 7. |
 | `check-installation.md`, `github-account.md` | Links only, no versions. |
 
 ## Rules
@@ -79,8 +79,12 @@ Compare each pin with the version from step 1.
 A new version changes the download links. Build them from the patterns the
 files already use:
 
-- Node.js: `https://nodejs.org/dist/<version>/node-<version>-x64.msi` and
-  `https://nodejs.org/dist/<version>/node-<version>.pkg`
+- Node.js, in the pre-workshop skill only:
+  `https://nodejs.org/dist/<version>/node-<version>-win-x64.zip`,
+  `https://nodejs.org/dist/<version>/node-<version>-darwin-arm64.tar.gz`
+  and `https://nodejs.org/dist/<version>/node-<version>-darwin-x64.tar.gz`.
+  The Mac link in that file carries `${ARK}` in place of the architecture,
+  as the gh link does, so verify it once with `arm64` and once with `x86_64`.
 - GitHub CLI:
   `https://github.com/cli/cli/releases/download/v<n>/gh_<n>_windows_amd64.msi`
   and `https://github.com/cli/cli/releases/download/v<n>/gh_<n>_macOS_universal.pkg`
@@ -134,8 +138,7 @@ never rewrite:
     code and user. Their sources stand next to them as `.html` files, and
     headless Chrome renders them: say in the report when a text moved, so
     a human edits the `.html` and renders it again.
-  - The download pages: «User Installer» on the VS Code page, «Windows
-    Installer» and «macOS Installer» on the Node.js page.
+  - The download pages: «User Installer» on the VS Code page.
 
 ## Step 6 — report
 Show `git diff --stat` and a short summary in the chat:
