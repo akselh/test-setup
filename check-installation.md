@@ -10,8 +10,8 @@ Du trenger dette før du starter:
 
 1. Du har gjort [github-account.md](github-account.md): du har en GitHub-konto, og du har
    godtatt GitHub-invitasjonen fra din bedrift.
-2. Du har installert VS Code, Git, Node.js og GitHub CLI, se
-   [installation-guide.md](installation-guide.md).
+2. Du har installert Git, se [installation-guide.md](installation-guide.md). VS Code, Node.js
+   og GitHub CLI installerer sjekken for deg om de mangler.
 3. Innlogging til GitHub (`gh auth login`) trenger du ikke gjøre på forhånd — sjekken åpner et
    terminalvindu for deg underveis, og forklarer steg for steg hva du skal gjøre der.
 
@@ -90,11 +90,11 @@ Alle fire kan du eventuelt slette etterpå. I tillegg legger sjekken bedriftens 
 egen mappe ved siden av, i `dev`-mappen. **Den mappen beholder du** — det er den du bruker i
 workshopen.
 
-Sjekken installerer ingen programmer selv, med to unntak: mangler GitHub CLI eller Node.js,
-legger sjekken dem i hjemmemappen din — det trenger ikke administratorrettigheter, og
+Sjekken installerer ingen programmer selv, med tre unntak: mangler GitHub CLI, Node.js eller
+VS Code, legger sjekken dem i hjemmemappen din — det trenger ikke administratorrettigheter, og
 sjekken sier fra når den gjør det. Node.js som sjekken installerer, ser Claude først etter en omstart:
 avslutt Claude Desktop helt, åpne det igjen, og kjør sjekken én gang til. Da lager den Word-
-og PowerPoint-filene. Mangler Git eller VS Code, spør den om du vil installere det nå — du
+og PowerPoint-filene. Mangler Git, spør den om du vil installere det nå — du
 klikker da selv gjennom installasjonen mens sjekken venter. Den logger
 deg heller ikke inn på GitHub. Mangler innloggingen, åpner sjekken et terminalvindu med
 innloggingen klar, forklarer hva du skal gjøre, og venter til du er ferdig. Uten innlogging
@@ -109,7 +109,7 @@ Sjekken kan endre disse tingene, og den spør deg først:
 
 Dette gjør sjekken uten å spørre, og sier fra om etterpå:
 
-- GitHub CLI og Node.js legger den i hjemmemappen din, hvis de mangler helt.
+- GitHub CLI, Node.js og VS Code legger den i hjemmemappen din, hvis de mangler helt.
 
 - Navnet og e-postadressen din i Git, hvis du ikke har satt dem fra før. Sjekken bruker
   navnet og jobbadressen fra Claude-brukeren din, som bedriften har gitt deg.

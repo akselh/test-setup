@@ -46,12 +46,13 @@ Below, `<ORG>` means the organisation and `<REPO>` means the repository from
 that file. Put the real values in place of them.
 
 ## Rules for the whole run
-- Install no program yourself, and never download an installer. When a program
-  is missing, the **user** installs it, and you wait — see «The install
-  offer» below. Two exceptions exist: GitHub CLI and Node.js, which you
-  install into the home folder yourself, without a question — see «The gh
-  install» and «The Node.js install». Never edit the user settings of VS
-  Code.
+- Install what is missing yourself, without a question: GitHub CLI, Node.js
+  and VS Code go into the space of the user, without administrator rights —
+  see «The gh install», «The Node.js install» and «The VS Code install».
+  Download only from the addresses those sections name. One program is the
+  exception: Git, whose installer asks questions and can need administrator
+  rights. There the **user** installs, and you wait — see «The install
+  offer». Never edit the user settings of VS Code.
 - Repair every fault you can repair before you write the report. The report
   describes the machine as it stands at the end of the run, not as it stood at
   the start.
@@ -66,9 +67,9 @@ that file. Put the real values in place of them.
 - Ask as few questions as you can. The user started the check to get the
   machine ready, so a choice the check can make itself is not a question.
   Never ask whether the user wants to log in, and never ask for the Git
-  identity, and never ask before you install GitHub CLI or Node.js into the
-  home folder. The questions that remain: the install offers for Git and
-  VS Code, the PATH repair,
+  identity, and never ask before you install GitHub CLI, Node.js or VS Code
+  into the space of the user. The questions that remain: the install offer
+  for Git, the PATH repair,
   the proxy certificate, and — as a last resort — the name and email of the user for the git config.
 - Run every step, also after a failure, with one exception: a missing GitHub
   login stops the run — see step 4. The report needs the full picture.
@@ -114,11 +115,11 @@ the machine now, and an install takes two minutes. So:
      check once more. Write `INSTALLERT UNDER SJEKKEN - krever omstart av
      Claude Desktop` in the report.
 
-The offer covers Git and VS Code, in step 2 and in step 3b. Those two need a
-real installer, and only the user runs installers. GitHub CLI and Node.js
-have their own way — see the next two sections. For the two above you never
-download an installer, and you never run one. That rule holds also when the
-user asks you to.
+The offer covers Git alone, in step 2 and in step 3b. Git needs a real
+installer with questions in it, and only the user runs it. GitHub CLI,
+Node.js and VS Code have their own way — see the next three sections. For
+Git you never download the installer, and you never run it. That rule holds
+also when the user asks you to.
 
 ## The gh install — the first program you install yourself
 GitHub CLI is different from the other programs: it is one self-contained
@@ -236,6 +237,58 @@ So after a Node.js install in this run:
   that one restart of Claude Desktop — close it completely, open it again —
   and one new run of the check finishes the job. The report says the same:
   this is a small fault, see the rules in step 7.
+
+## The VS Code install — the third program you install yourself
+VS Code installs into the space of the user on both systems, from the
+download links of Microsoft, without administrator rights. On Windows the
+«User Setup» installer does it silently, with no question; on a Mac the
+program is a zip that lands in the Applications folder of the user. So when
+VS Code is absent from the PATH and from the disk places of step 2, you do
+not send the user to an installer, and you do not ask — you say in one
+Norwegian sentence that VS Code is missing and that the check installs it
+now, and then you do it. The user objects in the chat: stop, write
+`MANGLER` in the report, with the link, and go on.
+
+The links below always give the newest release, and VS Code updates itself
+after that, so no version is pinned here. Download from these two addresses
+and from nowhere else.
+
+On a Mac:
+
+```
+mkdir -p ~/Applications ~/.local/bin
+curl -sL "https://update.code.visualstudio.com/latest/darwin-universal/stable" -o /tmp/vscode.zip
+ditto -x -k /tmp/vscode.zip ~/Applications
+ln -sf "$HOME/Applications/Visual Studio Code.app/Contents/Resources/app/bin/code" ~/.local/bin/code
+grep -q '.local/bin' ~/.zprofile 2>/dev/null || echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.zprofile
+"$HOME/Applications/Visual Studio Code.app/Contents/Resources/app/bin/code" --version
+```
+
+On Windows (the quoting rule from step 3c holds here too):
+
+```
+powershell -NoProfile -Command 'curl.exe -sL "https://update.code.visualstudio.com/latest/win32-x64-user/stable" -o "$env:TEMP\VSCodeUserSetup.exe"; $p = Start-Process -FilePath "$env:TEMP\VSCodeUserSetup.exe" -ArgumentList "/VERYSILENT","/NORESTART","/MERGETASKS=!runcode,addtopath" -Wait -PassThru; Write-Host "exit=$($p.ExitCode)"; & "$env:LOCALAPPDATA\Programs\Microsoft VS Code\bin\code.cmd" --version'
+```
+
+`/VERYSILENT` runs the installer with no window, `/NORESTART` keeps the
+machine up, `!runcode` stops VS Code from opening at the end, and
+`addtopath` puts the `code` command on the user PATH of every new terminal.
+The installer writes to `$env:LOCALAPPDATA\Programs\Microsoft VS Code`,
+which is the first disk place step 2 looks at. `exit=0` and a version on the
+last line: the install worked.
+
+The version comes from the disk place, and that lookup needs no PATH — so
+this verdict turns green in the same run. Write the version in the report,
+with the note `INSTALLERT UNDER SJEKKEN`. The `code` command on the PATH
+waits for the next start of Claude Desktop, and that does not matter: a
+`code` that is absent from the PATH does not break the workshop, see step
+2.
+
+The install fails — the download stops, the installer answers with another
+exit code, or the version does not appear: keep the exact text, write
+`MANGLER - <teksten>` in the report with the download link, and go on. A
+company policy that blocks programs from the user folders blocks the
+manual installer as well, so name IT in the report in that case.
 
 ## Open a terminal for the user
 Two moments send the user to their own terminal for the GitHub login: right
@@ -381,17 +434,18 @@ break the workshop. Look for the program file, and report the version:
 
 - Windows: `$LOCALAPPDATA/Programs/Microsoft VS Code/bin/code.cmd`, then
   `/c/Program Files/Microsoft VS Code/bin/code.cmd`
-- Mac: `/Applications/Visual Studio Code.app/Contents/Resources/app/bin/code`
+- Mac: `/Applications/Visual Studio Code.app/Contents/Resources/app/bin/code`,
+  then `~/Applications/Visual Studio Code.app/Contents/Resources/app/bin/code`
 
 The first line of the output is the version number. The workshop needs version
 1.131 or newer, because of the hybrid markdown editor. The file
 `.vscode/settings.json` in this folder turns that editor on for everybody, so
 no user has to change a setting.
 
-VS Code is absent from the PATH **and** absent from those disk places: make
-the install offer (see above). After the install, look at the disk places
-again — that lookup needs no restart, so the verdict can turn green in this
-run.
+VS Code is absent from the PATH **and** absent from those disk places:
+install it yourself — see «The VS Code install». After the install, look at
+the disk places again — that lookup needs no restart, so the verdict turns
+green in this run.
 
 ## Step 3 — repair the PATH
 Do this step for `node` and for `git` only. Skip it when both are on the PATH.
@@ -849,7 +903,8 @@ npm:         <versjon>
 Git:         <versjon>
              (eller: MANGLER / PÅ DISK, MEN IKKE PÅ PATH
               / INSTALLERT UNDER SJEKKEN - krever omstart av Claude Desktop)
-VS Code:     <versjon>   (eller: MANGLER / FOR GAMMEL, krever 1.131)
+VS Code:     <versjon>   (eller: MANGLER / FOR GAMMEL, krever 1.131
+                          / INSTALLERT UNDER SJEKKEN)
 GitHub CLI:  <versjon>   (eller: MANGLER / PÅ DISK, MEN IKKE PÅ PATH
                           / INSTALLERT UNDER SJEKKEN)
 
@@ -903,7 +958,9 @@ Rules for the report:
   - Git on Windows: https://git-scm.com/install/windows, and the guide
     `git-install.md` in this folder
   - Git on a Mac: the command `git --version` in Terminal starts the install
-  - VS Code: https://code.visualstudio.com/download
+  - VS Code: the check installs it — write that a new run of the check
+    installs it, or point at https://code.visualstudio.com/download if
+    the automated install fails
   - GitHub CLI: the check installs it — write that a new run of the check
     installs it, or point at https://cli.github.com/  if automated install fails
   - The GitHub login: the command

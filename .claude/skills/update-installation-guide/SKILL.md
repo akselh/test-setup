@@ -63,7 +63,9 @@ import json,sys; print(json.load(sys.stdin)['tag_name'])"
 Take the Node.js **LTS**, never the newest line. The workshop wants the
 version that nodejs.org itself recommends to a normal user.
 
-For VS Code, no pin exists to move — the guide links the download page. Only
+For VS Code, no pin exists to move — the check downloads the «latest» link
+of update.code.visualstudio.com in «The VS Code install», and VS Code
+updates itself after that. Verify that both links there still answer. Only
 the minimum version in the pre-workshop skill can age. Leave it alone unless
 the user says the workshop now needs a newer one.
 
@@ -138,7 +140,6 @@ never rewrite:
     code and user. Their sources stand next to them as `.html` files, and
     headless Chrome renders them: say in the report when a text moved, so
     a human edits the `.html` and renders it again.
-  - The download pages: «User Installer» on the VS Code page.
 
 ## Step 6 — report
 Show `git diff --stat` and a short summary in the chat:
