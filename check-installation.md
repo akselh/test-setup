@@ -12,8 +12,8 @@ Du trenger dette før du starter:
    med 2FA (2-faktor autentisering), og du har godtatt GitHub-invitasjonen fra din bedrift.
 2. Du har installert VS Code, Git, Node.js og GitHub CLI, se
    [installation-guide.md](installation-guide.md).
-3. Innlogging til GitHub (`gh auth login`) trenger du ikke gjøre på forhånd — sjekken hjelper
-   deg underveis, se «Innlogging på GitHub» under.
+3. Innlogging til GitHub (`gh auth login`) trenger du ikke gjøre på forhånd — sjekken åpner et
+   terminalvindu for deg underveis, og forklarer steg for steg hva du skal gjøre der.
 
 Og så må du ha Claude (Desktop applikasjon, _ikke_ websiden claude.ai) med tilgang til Claude Code, og du er logget 
 inn i Claude med brukeren tildelt av din bedrift. Claude er ikke med i denne installasjonsguiden da det er 
@@ -48,9 +48,10 @@ Dersom mappen finnes, bytt til denne mappen som arbeidsmappe og kjør git pull, 
 Kjør pre-workshop-check skillen.
 ```
 
-3. Claude stiller deg noen spørsmål underveis, blant annet om navnet ditt. Mangler et program
-   helt, spør Claude om du vil installere det nå, og viser deg lenken. Svar på spørsmålene, så
-   blir mest mulig fikset før rapporten skrives.
+3. Claude stiller deg så få spørsmål som mulig. Mangler et program helt, spør Claude om du vil
+   installere det nå, og viser deg lenken. Er du ikke logget inn på GitHub, åpner Claude et
+   terminalvindu der du logger inn selv, og forklarer steg for steg. Svar på det Claude
+   spør om, så blir mest mulig fikset før rapporten skrives.
 4. Send filen som blir laget til din workshop koordinator. Se instruksjoner under.
 
 Claude gjør all sjekk. NB! Sjekken bruker en egen `dev`-mappe, ikke `Dokumenter`. Mappen
@@ -60,26 +61,6 @@ Claude gjør all sjekk. NB! Sjekken bruker en egen `dev`-mappe, ikke `Dokumenter
 GitHub. Dette prosjektet er åpent, så kloningen trenger ingen tilgang til bedriftens organisasjon. 
 Be Claude i samme chat om å laste ned prosjektet fra samme GitHub-adresse som ZIP og pakke det ut i samme mappe i 
 stedet. Kjør så sjekken derfra — den vil da oppdage hva som mangler og hjelpe deg å fikse det.
-
-### Innlogging på GitHub
-
-Dette trenger du bare når du ikke allerede er logget inn — har du kjørt `gh auth login` før,
-ser sjekken det og hopper over hele steget. Ellers tilbyr Claude å åpne et terminalvindu for
-deg med kommandoen `gh auth login` klar. Selve innloggingen gjør du alltid selv, i det
-vinduet. Du må først ha godtatt GitHub-invitasjonen fra
-[github-account.md](github-account.md).
-
-Svar på spørsmålene med piltastene og Enter:
-
-- «What account do you want to log into?» → **GitHub.com**
-- «What is your preferred protocol for Git operations?» → **HTTPS**
-- «Authenticate Git with your GitHub credentials?» → **Yes**. Dette svaret er det viktigste.
-  Det gjør at Git bruker innloggingen din.
-- «How would you like to authenticate?» → **Login with a web browser**
-
-Kommandoen viser en kode på åtte tegn, for eksempel `A1B2-C3D4`. Kopier koden og trykk Enter.
-Nettleseren åpner seg — lim inn koden og godkjenn. Terminalen skriver
-`Logged in as <brukernavnet ditt>`. Si fra i chatten at du er ferdig, så fortsetter sjekken.
 
 ### Dette gjør du med resultatet av sjekken
 
@@ -113,14 +94,20 @@ Sjekken installerer ingen programmer selv, med ett unntak: mangler GitHub CLI, k
 legge det i hjemmemappen din for deg — det trenger ikke administratorrettigheter, og sjekken
 spør deg først. Mangler et av de andre programmene, spør den om du vil installere det nå — du
 klikker da selv gjennom installasjonen mens sjekken venter. Den logger
-deg heller ikke inn på GitHub. Mangler innloggingen, tilbyr sjekken å åpne et terminalvindu med
-`gh auth login` for deg, og fortsetter når du er ferdig. Se «Innlogging på GitHub» over.
+deg heller ikke inn på GitHub. Mangler innloggingen, åpner sjekken et terminalvindu med
+innloggingen klar, forklarer hva du skal gjøre, og venter til du er ferdig. Uten innlogging
+stopper sjekken, og du kjører den på nytt når innloggingen er i orden.
 
-Sjekken kan endre disse tingene, og den spør deg først hver gang:
+Sjekken kan endre disse tingene, og den spør deg først:
 
 - PATH-en din, hvis Node.js eller Git ligger på disken, men Claude ikke finner dem.
 - GitHub CLI kan den installere i hjemmemappen din, hvis det mangler helt.
-- Navnet og e-postadressen din i Git, hvis du ikke har satt dem fra før.
 - Innstillingen for sertifikater i npm, hvis firmaets brannmur stopper nedlastingen.
   Sjekken kopierer da sertifikatene fra Windows til filen `windows-root-ca.pem` i
   hjemmemappen din.
+
+To ting setter sjekken uten å spørre, og sier fra om etterpå:
+
+- Navnet og e-postadressen din i Git, hvis du ikke har satt dem fra før. Sjekken bruker
+  navnet og jobbadressen fra Claude-brukeren din, som bedriften har gitt deg.
+- At Git bruker GitHub-innloggingen din (`gh auth setup-git`).

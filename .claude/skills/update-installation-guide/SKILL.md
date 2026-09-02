@@ -122,9 +122,19 @@ never rewrite:
   pages and compare the texts when you can; report what you could not reach:
   - `github-account.md`: the signup flow and the 2FA path
     «Settings → Password and authentication».
-  - `check-installation.md`, section «Innlogging på GitHub»: the questions
-    `gh auth login` asks, in order, with «Authenticate Git with your GitHub
-    credentials?» among them.
+  - `.claude/skills/pre-workshop-check/SKILL.md`, section «Open a terminal
+    for the user», holds the Norwegian text the check relays at login. It
+    describes the one question that `gh auth login --hostname github.com --git-protocol https
+    --web --clipboard` still asks, «Authenticate Git with your GitHub
+    credentials?», and the two lines it prints after that, «One-time code
+    (…) copied to clipboard» and «Press Enter to open … in your browser».
+    The source of those lines is `internal/authflow/flow.go` in
+    github.com/cli/cli. The two screenshots `gh-login-01-terminal.png` and
+    `gh-login-02-browser.png` in `screenshots/` are drawings of that
+    terminal and of the GitHub page «Authorize your device», with a made-up
+    code and user. Their sources stand next to them as `.html` files, and
+    headless Chrome renders them: say in the report when a text moved, so
+    a human edits the `.html` and renders it again.
   - The download pages: «User Installer» on the VS Code page, «Windows
     Installer» and «macOS Installer» on the Node.js page.
 

@@ -54,14 +54,21 @@ that file. Put the real values in place of them.
 - Repair every fault you can repair before you write the report. The report
   describes the machine as it stands at the end of the run, not as it stood at
   the start.
-- You can change three things on the machine, each one only after the user says
-  yes: the PATH (step 3), the Git identity (step 4) and the Git credential
-  helper (step 4b). Every other change is forbidden.
+- You can change three things on the machine. The PATH (step 3) only after
+  the user says yes. The Git credential helper (step 4) and the Git identity
+  (step 4b.1) without a question — you tell the user what you set, and where
+  it came from. Every other change is forbidden.
 - Never run `gh auth login`, and never run `gh auth logout`. The login is
-  interactive and belongs to the user. You read the state, you can ask the
-  user to log in in their own terminal and wait (step 4b.1), and you report
-  the state at the end.
-- Run every step, also after a failure. The report needs the full picture.
+  interactive and belongs to the user. You read the state, you open a
+  terminal window for the user and wait (step 4), and you report the state
+  at the end.
+- Ask as few questions as you can. The user started the check to get the
+  machine ready, so a choice the check can make itself is not a question.
+  Never ask whether the user wants to log in, and never ask for the Git
+  identity. The questions that remain: the install offers, the PATH repair,
+  the proxy certificate, and — as a last resort — the name and email of the user for the git config.
+- Run every step, also after a failure, with one exception: a missing GitHub
+  login stops the run — see step 4. The report needs the full picture.
 - Keep the exact error text of a step that failed. Never guess a cause.
 - Write the report in Norwegian, and write it last.
 
@@ -156,56 +163,99 @@ for `gh` alone, for two reasons:
   the helper names the home folder. The helper names another gh, or none:
   that is a failure — report it.
 
-The login stays with the user. Offer to open the terminal window for the
-user — see «Open a terminal for the user» below. The user opens one
-themselves instead: the window must be **new** — opened after the install,
+The login stays with the user. Open the terminal window for the user — see
+«Open a terminal for the user» below. When the user must open one
+themselves instead, the window must be **new** — opened after the install,
 so it has the new PATH — and when that terminal does not know `gh`, give
 the user the full path to run.
 
 ## Open a terminal for the user
-Two moments send the user to their own terminal for `gh auth login`: right
-after «The gh install», and in step 4b.1. You can open that terminal window
-yourself. Offer it in the same Norwegian sentence that asks for the login,
-and wait for the answer.
+Two moments send the user to their own terminal for the GitHub login: right
+after «The gh install», and in step 4. You open that terminal window
+yourself, and you do not ask first — the user started the check to get the
+machine ready, and the login is part of that. Say in one Norwegian sentence
+that a terminal window opens now with the login ready, and that the user
+answers in that window. Then show what the user will see, and then open it.
 
-With the offer, show the user what to answer in the terminal: read the
-section «Innlogging på GitHub» in `check-installation.md` and repeat its
-answers in the chat. That section is the source of the answers — relay it,
-and never write a list of your own.
-
-After a yes, on a Mac:
+The login command is always this one, with all four flags:
 
 ```
-osascript -e 'tell application "Terminal" to do script "gh auth login"' -e 'tell application "Terminal" to activate'
+gh auth login --hostname github.com --git-protocol https --web --clipboard
+```
+
+The flags answer three of the four questions of `gh auth login` in advance,
+and copy the one-time code to the clipboard. What is left for the user: one
+question, «Authenticate Git with your GitHub credentials?», where Enter
+gives the answer Yes — and gh skips even that one when Git already uses gh.
+Then the terminal prints `! One-time code (XXXX-XXXX) copied to clipboard`
+and `Press Enter to open https://github.com/login/device in your
+browser...`. The user presses Enter, the browser opens the page «Authorize
+your device», the user pastes the code into the eight boxes (Ctrl+V on
+Windows, Cmd+V on a Mac), clicks Continue, and clicks Authorize. The
+terminal ends with `Logged in as <brukernavn>`.
+
+Show the user what to do **before** the window opens. Write this text in
+the chat, word for word — it is the only description the user gets, so
+never shorten it and never write a list of your own:
+
+```
+Det åpner seg nå et svart terminalvindu ved siden av Claude. Der logger du inn på GitHub selv — slik:
+
+1. **Se på terminalvinduet.** Det stiller ett spørsmål: «Authenticate Git with your GitHub credentials?». Trykk **Enter** — svaret Yes er valgt fra før. Noen ganger kommer ikke spørsmålet i det hele tatt.
+2. Terminalen viser så en kode på åtte tegn, og har allerede kopiert den for deg: `! One-time code (A1B2-C3D4) copied to clipboard`. Koden står i terminalvinduet, ikke her i chatten. Bildet under viser hvordan det ser ut — din kode er en annen.
+3. Trykk **Enter** en gang til. Nettleseren åpner siden «Authorize your device» med åtte tomme ruter.
+4. Lim inn koden i rutene med **Ctrl+V** (Windows) eller **Cmd+V** (Mac), og klikk **Continue**. Står det `Failed to copy one-time code to clipboard` i terminalen, skriver du inn de åtte tegnene fra terminalen selv.
+5. Klikk den grønne **Authorize**-knappen på neste side. Er du ikke logget inn på GitHub i nettleseren, logger du inn først, med GitHub-brukeren din.
+6. Gå tilbake til terminalvinduet. Der står det til slutt `Logged in as <brukernavnet ditt>`. Si fra her i chatten at du er ferdig.
+
+![Terminalvinduet med engangskoden](screenshots/gh-login-01-terminal.png)
+![Nettleseren med koden limt inn](screenshots/gh-login-02-browser.png)
+```
+
+On a Mac, write «Terminal-vindu» in place of «svart terminalvindu». Then
+show the two screenshots, `screenshots/gh-login-01-terminal.png` and
+`screenshots/gh-login-02-browser.png` in this project folder: use a tool
+that sends a file to the user when the session has one (for example
+`SendUserFile`) — the two image lines in the text stay, so the user can
+open the files either way. The screenshots show the terminal with the code,
+and the browser page with the code pasted in. A customer failed this step
+without them, on two points the text alone did not carry: the code stands
+in the black terminal window, not in the chat, and the browser page wants
+that code, not a password.
+
+Then open the window. On a Mac:
+
+```
+osascript -e 'tell application "Terminal" to do script "gh auth login --hostname github.com --git-protocol https --web --clipboard"' -e 'tell application "Terminal" to activate'
 ```
 
 On Windows:
 
 ```
-powershell -NoProfile -Command 'Start-Process powershell -ArgumentList "-NoExit","-Command","gh auth login"'
+powershell -NoProfile -Command 'Start-Process powershell -ArgumentList "-NoExit","-Command","gh auth login --hostname github.com --git-protocol https --web --clipboard"'
 ```
 
-When the check itself installed `gh` in this run, replace `gh auth login`
-with the full path:
+When the check itself installed `gh` in this run, replace `gh` with the
+full path:
 
-- Mac: `~/.local/bin/gh auth login`. The new Terminal window runs a login
-  shell and reads `.zprofile`, so bare `gh` works there too — but the full
-  path works always.
+- Mac: `~/.local/bin/gh auth login --hostname github.com --git-protocol https --web --clipboard`.
+  The new Terminal window runs a login shell and reads `.zprofile`, so bare
+  `gh` works there too — but the full path works always.
 - Windows: a window from `Start-Process` inherits the PATH of **this**
   process, not the repaired user PATH, so bare `gh` fails there. Use:
 
   ```
-  powershell -NoProfile -Command 'Start-Process powershell -ArgumentList "-NoExit","-Command","& `"$env:LOCALAPPDATA\Programs\gh\bin\gh.exe`" auth login"'
+  powershell -NoProfile -Command 'Start-Process powershell -ArgumentList "-NoExit","-Command","& `"$env:LOCALAPPDATA\Programs\gh\bin\gh.exe`" auth login --hostname github.com --git-protocol https --web --clipboard"'
   ```
 
 Two rules for this window:
 
 - On a Mac the first `osascript` call can open a macOS permission dialog
   («Claude» wants to control «Terminal»). The user clicks *Ikke tillat*, or
-  the command fails: do not retry. Tell the user to open a terminal
-  themselves, and give the exact command to run.
+  the command fails: do not retry. Tell the user to open Terminal
+  themselves, next to Claude, and give the full login command to paste.
 - The window belongs to the user. You never read it, and you never type in
-  it. Ask the user to say when the login is done, and wait — see step 4b.1
+  it. Ask the user to say when the login is done, and wait — see step 4
   for what happens next.
 
 The login state lands on the disk the moment `gh auth login` finishes.
@@ -242,7 +292,7 @@ The file sits there: the PATH is the fault. Write `PÅ DISK, MEN IKKE PÅ PATH`
 in the report, and tell the user to restart as the guide says — on a Mac
 close Claude completely and open it again, on Windows log out and in. The
 file is absent there too: offer to install it — see «The gh install» above.
-Go on to step 4b in every case.
+Go on in every case — step 4 decides what a missing `gh` means.
 
 `code` is a special case. The installer of VS Code adds it to the PATH only
 when the user ticked the box. A `code` that is absent from the PATH does not
@@ -350,7 +400,66 @@ Xcode. The stub opens a dialog the first time somebody runs it, and
 - Tell the user to run the check again after that.
 - Write `MANGLER - Command Line Tools ikke installert` in the report.
 
-## Step 4 — the Git identity
+## Step 4 — the GitHub login
+Everything after this step needs the login: the Git identity comes from the
+GitHub profile, and the access test and the clone need the credentials. So
+this step is a gate — the run does not go on without a login.
+
+`gh` is absent from both the PATH and the disk after the install offer: the
+login cannot happen. Stop the run as described at the end of this step,
+with `MANGLER` on the GitHub CLI line. The check installed `gh` in this
+run: call `gh` through its full path here and in step 4b — see «The gh
+install».
+
+Read the login:
+
+```
+gh auth status
+```
+
+The command writes `Logged in to github.com account <navn>` after a good
+login. Take the account name for the report. Then make Git use that login,
+without a question — this is what the answer Yes to «Authenticate Git with
+your GitHub credentials?» does, and running it here makes that answer
+irrelevant:
+
+```
+gh auth setup-git
+```
+
+The command fails with `You are not logged into any GitHub hosts` when the
+login is missing. Do not ask whether the user wants to log in, and do not
+go to the report. Open the terminal window with the login — see «Open a
+terminal for the user» above — and wait for the user to say that the login
+is done.
+
+The user says done: run `gh auth status` again, and continue with the
+result of the second attempt. The new login works at once in this session,
+and no restart of Claude Desktop is needed — see «Open a terminal for the
+user». Write `logget inn under sjekken` in the report, and run
+`gh auth setup-git` as above.
+
+The second attempt fails too: show the exact error text, and open the
+terminal window once more, with the same instructions. The third
+`gh auth status` fails, or the user says the login did not work, or the
+user says no to the login: **stop the run here.** Do not test the access,
+do not clone, and do not make the Word and PowerPoint files — the picture
+is worthless without the login, and the user runs the check again after
+the login works. Tell the user in Norwegian what failed, with the error
+text, and that the check runs again from the start once the login is in
+place. Then write the report of step 7 with `IKKE LOGGET INN` on the login
+line and `IKKE TESTET - stoppet ved GitHub-innlogging` on every line after
+it, and end with «After the report».
+
+You never run `gh auth login` yourself — the login is interactive, and only
+the user can answer it.
+
+## Step 4b — the Git identity, the access to the organisation and the clone
+The workshop clones a repository of the company. This step proves that the
+attendee can read it, and ends with the clone itself. It runs only after a
+good login in step 4.
+
+### 4b.1 The Git identity
 Git refuses to save a change before it knows a name and an e-mail address.
 Read the two values:
 
@@ -359,58 +468,39 @@ git config --global user.name
 git config --global user.email
 ```
 
-Both values are present: write `SATT` in the report, and go on.
+Both values are present: write `SATT` in the report, and go on. Never
+overwrite a value that is set.
 
-One value is empty: ask the user for the name and the e-mail address, in one
-Norwegian sentence. Then set the value that is missing:
+One value is empty, or both: do not ask the user. The attendee runs the
+check as the company user of Claude, so the account of this session is the
+source — the full name and the e-mail address that Claude Desktop shows for
+the logged-in user. That address is the company address, and the company
+address is the one that belongs on a commit in the repository of the
+company.
+
+The name: the full name of the Claude account. The session shows no name:
+take `name` from the GitHub profile, `gh api user --jq .name`, when it is a
+full name and not a handle. Neither exists: ask for it, in one Norwegian
+sentence — this is the one question that can remain.
+
+The e-mail address: the address of the Claude account. Never an address
+from the GitHub profile — the account guide tells attendees to register
+GitHub with a private address, and a private address does not belong in
+the history of the company repository. The session shows no address: ask
+for the company address, in the same sentence as the name.
+
+Set what was missing:
 
 ```
 git config --global user.name "<navn>"
 git config --global user.email "<e-post>"
 ```
 
-Write in the report that the check set the value.
+Tell the user in one Norwegian sentence what the check set, where it came
+from, and that `git config --global user.name "<navn>"` changes it later.
+Write in the report that the check set the value, with both values.
 
-Skip this step when `git` is absent from the PATH.
-
-## Step 4b — the GitHub login and the access to the organisation
-The workshop clones a repository of the company. This step proves that the
-attendee can read it, and ends with the clone itself. `gh` is absent from
-the PATH **and** the check did not install it: skip 4b.1 and 4b.3, and
-write `MANGLER` in their report lines — but run 4b.2 and 4b.4 anyway,
-because both work with `git` alone, and they can still pass. The check
-installed `gh` in this run: run every part of 4b, and call `gh` through
-its full path — see «The gh install».
-
-### 4b.1 Read the login
-```
-gh auth status
-```
-
-The command writes `Logged in to github.com account <navn>` after a good
-login. Take the account name for the report.
-
-The command fails with `You are not logged into any GitHub hosts` when the
-login is missing. Do not go straight to the report — the user can repair this
-now, in the middle of the run. Offer to open a terminal window with
-`gh auth login` for the user — see «Open a terminal for the user» above.
-The user declines, or the window does not open: tell the user in Norwegian
-to open PowerShell or Terminal **next to Claude** and run `gh auth login`
-there. In both cases the user must answer **Yes** to «Authenticate Git with
-your GitHub credentials?». Point at the section «Innlogging på GitHub» in
-`check-installation.md`. Ask the user to say when the login is done, and
-wait.
-
-The user says done: run `gh auth status` again, and continue with the result
-of the second attempt. The new login works at once in this session, and no
-restart of Claude Desktop is needed — see «Open a terminal for the user».
-Write `logget inn under sjekken` in the report.
-
-The user says no, or the login fails: that is a red verdict. Write it in the
-report, and go on to the next step.
-
-You never run `gh auth login` yourself — the login is interactive, and only
-the user can answer it.
+Skip this part when `git` is absent from the PATH.
 
 ### 4b.2 Test Git against GitHub
 The login of `gh` can be good while Git still asks for a password, because the
@@ -421,13 +511,17 @@ test where bare `git` is deliberate: the workshop runs `git clone` and
 Git itself has no credentials. Never replace this command with `gh`:
 
 ```
-GIT_TERMINAL_PROMPT=0 git ls-remote https://github.com/<REPO>; echo "exit=$?"
+GIT_TERMINAL_PROMPT=0 GCM_INTERACTIVE=never git ls-remote https://github.com/<REPO>; echo "exit=$?"
 ```
 
 Use the repository from `workshop-info.md`, see the top of this file. The
-part `GIT_TERMINAL_PROMPT=0` is a must, and not a detail. Without it Git asks
-for a user name, and the command then waits for ever, because you cannot
-answer it.
+two variables are a must, and not a detail. Without `GIT_TERMINAL_PROMPT=0`
+Git asks for a user name, and the command then waits for ever, because you
+cannot answer it. Without `GCM_INTERACTIVE=never` Git Credential Manager on
+Windows opens a browser login of its own — a customer got exactly that
+page, «Authorize Git Credential Manager», in the middle of the check. Put
+both variables in front of every `git` command in this step that talks to
+GitHub: `ls-remote`, `clone` and `pull`.
 
 **Judge this test by the exit code, and never by the output.** A repository
 with no commits in it answers with `exit=0` and with no text at all. Empty
@@ -440,17 +534,15 @@ output is a pass.
   Git has no credentials for github.com, or the user has no access. Step 4b.3
   separates the two cases.
 
-The repair for a missing credential helper is one command. It needs no new
-login. The repair needs `gh`: when `gh` is missing from both the PATH and
-the disk, skip the repair, write the verdict of the first attempt, and go
-on. Otherwise ask the user first, in one Norwegian sentence, then run:
+Step 4 ran `gh auth setup-git` already, so a failure here is rare. Run it
+once more, without a question, and then `git ls-remote` a second time.
+Write the result of the second attempt in the report — `SATT OPP AV
+SJEKKEN` when it passes. A second failure: keep the exact error text, and
+read the configuration below for the report.
 
 ```
 gh auth setup-git
 ```
-
-Run `git ls-remote` a second time after that, and write the result of the
-second attempt in the report.
 
 For a diagnosis, and never for a verdict, you can read the configuration:
 
@@ -491,9 +583,8 @@ code in place.
 Skip this step, and write `IKKE TESTET` in the report, when `git` is absent
 from the PATH, or when step 4b.3 ended in `INGEN TILGANG`.
 
-Clone with `gh`, and with bare `git` only when `gh` is absent from the PATH.
-`gh` carries its own login, so the clone succeeds also on a machine where
-Git waits for a repair. The clone through `gh` therefore proves the access
+Clone with `gh`. `gh` carries its own login, so the clone succeeds also on
+a machine where Git waits for a repair. The clone through `gh` therefore proves the access
 and nothing more — so right after a fresh clone, run one `git pull` inside
 it. The workshop day starts with exactly that command, in exactly that
 folder, and the pull uses the credentials of Git, not of `gh`. The verdict
@@ -513,16 +604,10 @@ Look at the target first:
   gh repo clone <REPO> ../<NAVN>; echo "exit=$?"
   ```
 
-  `gh` is absent from the PATH — use bare Git instead:
-
-  ```
-  GIT_TERMINAL_PROMPT=0 git clone https://github.com/<REPO> ../<NAVN>; echo "exit=$?"
-  ```
-
   `exit=0` on the clone: run the pull inside the fresh clone.
 
   ```
-  GIT_TERMINAL_PROMPT=0 git -C ../<NAVN> pull; echo "exit=$?"
+  GIT_TERMINAL_PROMPT=0 GCM_INTERACTIVE=never git -C ../<NAVN> pull; echo "exit=$?"
   ```
 
   The pull answers `exit=0`: write `OK`, with the full path of the new
@@ -643,8 +728,9 @@ ls -l powerpoint-example.pptx
 ```
 
 ## Step 7 — write the report
-Ask the user for the name in one Norwegian sentence, when you do not know it.
-Then write the report.
+The name in the report is the name from the Git identity (step 4b.1), or
+the name the user is known by in this session. Ask for it, in one Norwegian
+sentence, only when neither exists. Then write the report.
 
 Show the report in the chat inside one code block, so the user can copy it in
 one action. Use this form exactly:
@@ -659,7 +745,7 @@ RESULTAT:    MASKINEN ER KLAR FOR WORKSHOP
              (eller: MASKINEN MANGLER: <kort liste>)
 
 Git-identitet: SATT av <navn> <e-post>
-             (eller: SATT AV SJEKKEN / IKKE SATT)
+             (eller: SATT AV SJEKKEN - <navn> <e-post> / IKKE SATT)
 GitHub-bruker: <brukernavn GitHub> 
              (eller: IKKE FUNNET)
 
@@ -678,6 +764,8 @@ GitHub CLI:  <versjon>   (eller: MANGLER / PÅ DISK, MEN IKKE PÅ PATH
 Tester:
 GitHub-innlogging: OK - logget inn som <kontonavn>
              (eller: IKKE LOGGET INN / MANGLER)
+             Etter IKKE LOGGET INN står det på hver linje under:
+             IKKE TESTET - stoppet ved GitHub-innlogging
 Org-tilgang: OK - leste <REPO>
              (eller: INGEN TILGANG / IKKE TESTET)
 Git mot GitHub: OK - git ls-remote leste repoet
@@ -723,8 +811,10 @@ Rules for the report:
   - VS Code: https://code.visualstudio.com/download
   - GitHub CLI: the check installs it — write that a new run of the check
     installs it after a yes, or point at https://cli.github.com/
-  - The GitHub login: the command `gh auth login`, and the section
-    «Innlogging på GitHub» in `check-installation.md`
+  - The GitHub login: the command
+    `gh auth login --hostname github.com --git-protocol https --web --clipboard`, and
+    say that a new run of the check opens the terminal for it, with the
+    steps explained.
 - Two faults need the workshop coordinator, not IT, and the report must say so:
   - a login that works, but no access to the organisation. The coordinator
     sends the invitation.
